@@ -1,15 +1,49 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafaf8;
-  --foreground: #18181b;
+  --ua-bg: #fff7e8;
+  --ua-bg-secondary: #f1edff;
+  --ua-text: #2e223a;
+  --ua-muted: #7a6b85;
+  --ua-coral: #ff9aa2;
+  --ua-mint: #b8f2d8;
+  --ua-blue: #a7d8ff;
+  --ua-yellow: #ffe8a3;
+  --ua-lavender: #ede7ff;
+  --ua-border: #ddd3ee;
+  --ua-shadow-tint: #ffd6c9;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ua-bg: var(--ua-bg);
+  --color-ua-bg-secondary: var(--ua-bg-secondary);
+  --color-ua-text: var(--ua-text);
+  --color-ua-muted: var(--ua-muted);
+  --color-ua-coral: var(--ua-coral);
+  --color-ua-mint: var(--ua-mint);
+  --color-ua-blue: var(--ua-blue);
+  --color-ua-yellow: var(--ua-yellow);
+  --color-ua-lavender: var(--ua-lavender);
+  --color-ua-border: var(--ua-border);
+  --color-ua-shadow: var(--ua-shadow-tint);
+
+  --font-sans: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-ua-card: 24px;
+  --radius-ua-section: 28px;
+  --radius-ua-btn: 18px;
+
+  --shadow-ua-soft:
+    0 10px 38px -12px rgb(255 214 201 / 0.65),
+    0 4px 16px -8px rgb(221 211 238 / 0.45);
+
+  --shadow-ua-soft-sm:
+    0 6px 22px -10px rgb(255 214 201 / 0.55),
+    0 2px 10px -6px rgb(221 211 238 / 0.35);
+
+  --shadow-ua-float:
+    0 14px 44px -14px rgb(255 214 201 / 0.55),
+    0 8px 24px -12px rgb(167 216 255 / 0.22);
 }
 
 @keyframes float-gentle {
@@ -19,6 +53,28 @@
   }
   50% {
     transform: translateY(-7px);
+  }
+}
+
+@keyframes float-orbit {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
   }
 }
 
@@ -33,10 +89,28 @@ html {
   .hero-float {
     animation: none !important;
   }
+  .motion-safe-float {
+    animation: none !important;
+  }
+  .motion-safe-orbit {
+    animation: none !important;
+  }
 }
 
 .hero-float {
-  animation: float-gentle 5.5s ease-in-out infinite;
+  animation: float-orbit 6s ease-in-out infinite;
+}
+
+.motion-safe-float {
+  animation: float-gentle 5s ease-in-out infinite;
+}
+
+.motion-safe-orbit {
+  animation: float-orbit 7s ease-in-out infinite;
+}
+
+.motion-safe-sparkle {
+  animation: sparkle 3.5s ease-in-out infinite;
 }
 
 @keyframes confetti-fall {
@@ -62,7 +136,7 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--ua-bg);
+  color: var(--ua-text);
   font-family: var(--font-sans), system-ui, sans-serif;
 }

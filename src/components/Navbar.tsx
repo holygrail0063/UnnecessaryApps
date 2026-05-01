@@ -1,102 +1,119 @@
-import Link from "next/link";
-import { RandomAppButton } from "@/components/RandomAppButton";
+"use client";
 
-const navLinkClass =
-  "text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500 rounded-md px-1";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+function LogoMark() {
+  return (
+    <svg
+      width="38"
+      height="38"
+      viewBox="0 0 40 40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+      className="shrink-0"
+    >
+      <circle cx="20" cy="20" r="18" fill="#EDE7FF" stroke="#DDD3EE" strokeWidth="1.5" />
+      <circle cx="14" cy="17" r="5" fill="#FFE8A3" opacity="0.92" />
+      <circle cx="26" cy="21" r="7" fill="#FF9AA2" opacity="0.9" />
+      <ellipse cx="20" cy="29" rx="10" ry="6" fill="#B8F2D8" opacity="0.85" />
+      <circle cx="12" cy="26" r="3" fill="#A7D8FF" />
+    </svg>
+  );
+}
 
 export function Navbar() {
+  const pathname = usePathname();
+
+  const linkBase =
+    "rounded-full px-4 py-2 text-sm font-semibold text-ua-muted transition-colors hover:bg-ua-bg-secondary hover:text-ua-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFB7C5]";
+
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-200/80 bg-[#FAFAF8]/85 backdrop-blur-md supports-[backdrop-filter]:bg-[#FAFAF8]/70">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:gap-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 px-4 pb-3 pt-4 sm:px-6 lg:px-8">
+      <div
+        className="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-[28px] border border-ua-border/70 bg-[#FFFDF8]/92 px-4 py-2 shadow-[var(--shadow-ua-soft-sm)] backdrop-blur-md md:gap-6 md:px-6 md:py-3"
+      >
         <Link
           href="/"
-          className="group flex min-w-0 items-center gap-2 font-semibold tracking-tight text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500 rounded-md"
+          className="flex min-w-0 items-center gap-2 rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFB7C5]"
         >
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 via-fuchsia-500 to-amber-400 text-xs font-bold text-white shadow-sm shadow-violet-500/25">
-            UA
+          <LogoMark />
+          <span className="truncate font-bold tracking-tight text-ua-text md:text-lg">
+            UnnecessaryApps
           </span>
-          <span className="truncate sm:inline">Unnecessary Apps</span>
         </Link>
 
         <nav
-          className="hidden items-center gap-5 lg:flex lg:gap-7"
+          className="hidden flex-1 items-center justify-center gap-1 whitespace-nowrap md:flex lg:gap-2"
           aria-label="Primary"
         >
-          <Link href="/" className={navLinkClass}>
+          <Link
+            href="/"
+            aria-current={pathname === "/" ? "page" : undefined}
+            className={`${linkBase} ${
+              pathname === "/" ? "bg-ua-yellow/70 text-ua-text shadow-sm" : ""
+            }`}
+          >
             Home
           </Link>
-          <a href="#featured" className={navLinkClass}>
+          <a href="#featured-apps" className={linkBase}>
+            Apps
+          </a>
+          <a href="#featured-apps" className={linkBase}>
             Featured
           </a>
-          <a href="#all-apps" className={navLinkClass}>
-            All Apps
-          </a>
-          <Link href="/about" className={navLinkClass}>
+          <Link href="/about" className={linkBase}>
             About
           </Link>
-          <Link href="/submit" className={navLinkClass}>
-            Submit an Idea
+          <Link href="/submit" className={linkBase}>
+            Submit Idea
           </Link>
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
-          <details className="relative lg:hidden">
-            <summary className="list-none cursor-pointer rounded-full border border-zinc-200 bg-white px-3 py-2 text-sm font-medium text-zinc-800 shadow-sm transition hover:bg-zinc-50 [&::-webkit-details-marker]:hidden">
+        <div className="flex items-center gap-2">
+          <details className="relative md:hidden">
+            <summary className="list-none cursor-pointer rounded-full border border-ua-border bg-ua-lavender/50 px-3 py-2 text-sm font-semibold text-ua-text shadow-[var(--shadow-ua-soft-sm)] [&::-webkit-details-marker]:hidden">
               Menu
             </summary>
-            <div className="absolute right-0 z-50 mt-2 w-52 rounded-2xl border border-zinc-200 bg-white p-2 shadow-xl">
+            <div className="absolute right-0 z-[60] mt-2 w-[min(100vw-2rem,16rem)] rounded-2xl border border-ua-border bg-[#FFFDF8] p-3 shadow-[var(--shadow-ua-float)]">
               <ul className="flex flex-col gap-1">
                 <li>
-                  <Link
-                    href="/"
-                    className="block rounded-lg px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
-                  >
+                  <Link href="/" className="block rounded-xl px-3 py-2 font-medium text-ua-text hover:bg-ua-mint/30">
                     Home
                   </Link>
                 </li>
                 <li>
-                  <a
-                    href="#featured"
-                    className="block rounded-lg px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
-                  >
+                  <a href="#featured-apps" className="block rounded-xl px-3 py-2 font-medium text-ua-text hover:bg-ua-blue/30">
+                    Apps
+                  </a>
+                </li>
+                <li>
+                  <a href="#featured-apps" className="block rounded-xl px-3 py-2 font-medium text-ua-text hover:bg-ua-yellow/50">
                     Featured
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#all-apps"
-                    className="block rounded-lg px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
-                  >
-                    All Apps
-                  </a>
-                </li>
-                <li>
-                  <Link
-                    href="/about"
-                    className="block rounded-lg px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
-                  >
+                  <Link href="/about" className="block rounded-xl px-3 py-2 font-medium text-ua-text hover:bg-ua-lavender/70">
                     About
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/submit"
-                    className="block rounded-lg px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
-                  >
-                    Submit an Idea
+                  <Link href="/submit" className="block rounded-xl px-3 py-2 font-medium text-ua-text hover:bg-ua-mint/35">
+                    Submit Idea
                   </Link>
                 </li>
               </ul>
             </div>
           </details>
 
-          <RandomAppButton
-            className="inline-flex shrink-0 items-center justify-center rounded-full bg-zinc-900 px-3 py-2 text-xs font-semibold text-white shadow-md shadow-zinc-900/10 transition hover:bg-zinc-800 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500 sm:px-4 sm:text-sm"
-            label="Try a random live app"
+          <Link
+            href="#featured-apps"
+            className="inline-flex min-h-[42px] items-center justify-center rounded-full bg-ua-coral px-4 py-2.5 text-xs font-bold tracking-wide text-ua-text shadow-[0_6px_22px_-6px_rgba(255,154,162,0.75)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_28px_-8px_rgba(255,154,162,0.85)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFB7C5] sm:min-h-[46px] sm:px-6 sm:text-[13px]"
           >
-            <span className="hidden sm:inline">Try Random App</span>
-            <span className="sm:hidden">Random</span>
-          </RandomAppButton>
+            <span className="sm:hidden">Explore</span>
+            <span className="hidden sm:inline">Explore Apps</span>
+          </Link>
         </div>
       </div>
     </header>

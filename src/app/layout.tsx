@@ -1,24 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Unnecessary Apps — Beautifully built. Completely pointless.",
-    template: "%s — Unnecessary Apps",
+    default: "UnnecessaryApps — Beautifully useless apps in one pastel place.",
+    template: "%s — UnnecessaryApps",
   },
   description:
-    "A collection of tiny web apps that solve problems you definitely do not have.",
+    "Collecting the internet’s most delightfully useless apps so you don’t have to.",
   metadataBase: new URL("https://unnecessaryapps.com"),
 };
 
@@ -30,9 +26,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
+      className={`${plusJakarta.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#FAFAF8] text-zinc-900">
+      <body className="min-h-full flex flex-col bg-ua-bg font-sans text-ua-text">
         {children}
       </body>
     </html>
