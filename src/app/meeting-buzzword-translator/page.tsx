@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { PlaceholderAppPage } from "@/components/PlaceholderAppPage";
+import { AppNavbar } from "@/components/apps/AppNavbar";
+import { AppFooter } from "@/components/apps/AppFooter";
+import { MeetingBuzzwordTranslator } from "@/components/apps/MeetingBuzzwordTranslator";
 
 export const metadata: Metadata = {
   title: "Meeting Buzzword Translator",
@@ -10,15 +10,12 @@ export const metadata: Metadata = {
 
 export default function MeetingBuzzwordPage() {
   return (
-    <>
-      <Navbar />
-      <main className="flex-1 border-t border-zinc-200/60 bg-[#FAFAF8]">
-        <PlaceholderAppPage
-          title="Meeting Buzzword Translator"
-          description="This app will translate your sensible sentences into boardroom poetry. The build is intentionally still unnecessary."
-        />
+    <div className="flex min-h-screen flex-col bg-[#FAFAF8]">
+      <AppNavbar />
+      <main className="flex-1">
+        <MeetingBuzzwordTranslator />
       </main>
-      <Footer />
-    </>
+      <AppFooter />
+    </div>
   );
 }
