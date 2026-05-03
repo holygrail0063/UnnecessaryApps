@@ -286,20 +286,28 @@ export function IsItMondayYet() {
         </section>
       </div>
 
-      <section className="mx-auto mt-14 max-w-6xl border-t-[4px] border-b-[4px] border-ink bg-blue-main px-4 py-10 text-center sm:px-6 lg:px-8">
-        <p className="font-display text-lg font-bold text-text-main sm:text-xl">
-          Still unsure? Try checking again in 3 seconds.
-        </p>
-        <button
-          type="button"
-          onClick={checkAgain}
-          className="btn-cartoon mt-6 inline-flex min-h-[52px] items-center justify-center rounded-full border-[3px] border-ink bg-bg-cream px-8 py-3 font-display text-base font-bold text-text-main shadow-cartoon hover:bg-pink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
-        >
-          Reconfirm Monday Status
-        </button>
-        <p className="mt-6 font-semibold text-text-main/95">
-          Pointless tools for very important feelings.
-        </p>
+      <section
+        aria-labelledby="monday-cta-heading"
+        className="relative mt-14 box-border w-screen max-w-[100vw] border-y-[4px] border-ink bg-[#27B5E8] py-16 [margin-left:calc(50%-50vw)] [margin-right:calc(50%-50vw)] sm:py-[72px]"
+      >
+        <div className="mx-auto max-w-[1100px] px-6 text-center">
+          <h2
+            id="monday-cta-heading"
+            className="font-display text-lg font-bold leading-snug text-text-main sm:text-xl"
+          >
+            Still unsure? Try checking again in 3 seconds.
+          </h2>
+          <button
+            type="button"
+            onClick={checkAgain}
+            className="btn-cartoon mt-6 inline-flex min-h-[52px] items-center justify-center rounded-full border-[3px] border-ink bg-[#FFF8EA] px-8 py-3 font-display text-base font-bold text-text-main shadow-cartoon hover:bg-pink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          >
+            Reconfirm Monday Status
+          </button>
+          <p className="mt-6 font-display font-semibold text-text-main/95">
+            Pointless tools for very important feelings.
+          </p>
+        </div>
       </section>
     </div>
   );
