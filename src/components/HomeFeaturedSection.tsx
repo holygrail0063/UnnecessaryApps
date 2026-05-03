@@ -90,7 +90,7 @@ function appIcon(id: ShowcaseApp["id"]) {
   const map: Record<string, string> = {
     monday: "📅",
     "button-clicker": "🖱️",
-    microwave: "🎵",
+    microwave: "⏲️",
     excuse: "🫠",
     "bread-weather": "🍞",
     "pixel-museum": "🖼️",

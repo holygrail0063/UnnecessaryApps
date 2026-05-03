@@ -61,9 +61,11 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
     title: "Microwave Beep Translator",
     description:
       "Finally understand what those beeps actually mean.",
-    tag: "Featured",
+    tag: "FEATURED",
     cardBg: "blue",
     categories: ["pointless", "fake-productivity"],
+    href: "/microwave-beep-translator",
+    storefrontCard: true,
   },
   {
     id: "excuse",

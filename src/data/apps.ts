@@ -25,6 +25,7 @@ export const LIVE_APP_ROUTES = [
   "/bread-weather",
   "/one-pixel-museum",
   "/is-it-monday-yet",
+  "/microwave-beep-translator",
 ] as const;
 
 export const apps: App[] = [
@@ -128,6 +129,13 @@ export const apps: App[] = [
     name: "The Overthinking Machine",
     shortDescription: "Takes a simple thought and makes it dramatically worse.",
     status: "coming-soon",
+  },
+  {
+    id: "microwave-beep-translator",
+    name: "Microwave Beep Translator",
+    shortDescription: "Finally understand what those beeps actually mean.",
+    status: "live",
+    route: "/microwave-beep-translator",
   },
   {
     id: "bread-weather",
