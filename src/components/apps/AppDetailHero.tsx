@@ -3,11 +3,18 @@ import type { ReactNode } from "react";
 type AppDetailHeroProps = {
   title: ReactNode;
   subtitle: string;
+  /** Optional smaller line under subtitle */
+  tertiary?: string;
   /** Optional tiny decorations (arrows, clouds) */
   decorations?: ReactNode;
 };
 
-export function AppDetailHero({ title, subtitle, decorations }: AppDetailHeroProps) {
+export function AppDetailHero({
+  title,
+  subtitle,
+  tertiary,
+  decorations,
+}: AppDetailHeroProps) {
   return (
     <div className="relative mx-auto max-w-3xl px-4 pt-10 text-center sm:px-6 lg:px-8 lg:pt-14">
       {decorations ? (
@@ -21,6 +28,11 @@ export function AppDetailHero({ title, subtitle, decorations }: AppDetailHeroPro
       <p className="relative mx-auto mt-4 max-w-2xl text-lg font-semibold leading-relaxed text-text-muted sm:text-xl">
         {subtitle}
       </p>
+      {tertiary ? (
+        <p className="relative mx-auto mt-3 max-w-xl font-display text-sm font-bold text-text-muted/90">
+          {tertiary}
+        </p>
+      ) : null}
     </div>
   );
 }

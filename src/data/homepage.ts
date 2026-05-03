@@ -12,11 +12,15 @@ export interface ShowcaseApp {
   id: string;
   title: string;
   description: string;
+  /** Second line under description (e.g. spoiler line) */
+  secondaryDescription?: string;
   tag: string;
   cardBg: CartoonCardBg;
   categories: ShopCategoryId[];
   /** Live app route when clickable */
   href?: string;
+  /** Stronger storefront hover (lift + tiny wobble) */
+  storefrontCard?: boolean;
 }
 
 export const SHOP_CATEGORY_TABS: {
@@ -34,11 +38,13 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
   {
     id: "monday",
     title: "Is It Monday Yet?",
-    description:
-      "Checks the calendar so you don’t have to. Spoiler: it’s probably Monday.",
-    tag: "Featured",
-    cardBg: "softPink",
+    description: "Checks the calendar so you don’t have to.",
+    secondaryDescription: "Spoiler: it’s probably Monday.",
+    tag: "FEATURED",
+    cardBg: "salmon",
     categories: ["chaos", "games"],
+    href: "/is-it-monday-yet",
+    storefrontCard: true,
   },
   {
     id: "button-clicker",

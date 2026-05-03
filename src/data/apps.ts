@@ -24,14 +24,17 @@ export const LIVE_APP_ROUTES = [
   "/fake-loading-screen-generator",
   "/bread-weather",
   "/one-pixel-museum",
+  "/is-it-monday-yet",
 ] as const;
 
 export const apps: App[] = [
   {
     id: "is-it-monday",
     name: "Is It Monday Yet?",
-    shortDescription: "Tells you whether today is Monday with dramatic music.",
-    status: "coming-soon",
+    shortDescription:
+      "Checks the calendar so you don’t have to. Spoiler: it’s probably Monday.",
+    status: "live",
+    route: "/is-it-monday-yet",
     accentBadge: "Probably Useless",
   },
   {
