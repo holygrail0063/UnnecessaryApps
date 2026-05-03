@@ -29,23 +29,27 @@ function schedulePop(audioCtx: AudioContext, gainPeak: number) {
   const oscillator = audioCtx.createOscillator();
   const gainNode = audioCtx.createGain();
   const t0 = audioCtx.currentTime;
+  const duration = 0.14;
 
   oscillator.type = "sine";
-  oscillator.frequency.setValueAtTime(180, t0);
-  oscillator.frequency.exponentialRampToValueAtTime(520, t0 + 0.08);
+  oscillator.frequency.setValueAtTime(160, t0);
+  oscillator.frequency.exponentialRampToValueAtTime(620, t0 + 0.08);
 
   gainNode.gain.setValueAtTime(gainPeak, t0);
-  gainNode.gain.exponentialRampToValueAtTime(0.001, t0 + 0.12);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, t0 + duration);
 
   oscillator.connect(gainNode);
   gainNode.connect(audioCtx.destination);
 
   oscillator.start(t0);
-  oscillator.stop(t0 + 0.12);
+  oscillator.stop(t0 + duration);
 }
 
+/** Default peak gain — tuned for laptop / phone speakers; override for rapid “Pop all”. */
+const DEFAULT_POP_GAIN = 0.22;
+
 export function playPopSound(options?: { gain?: number }): void {
-  const gainPeak = options?.gain ?? 0.1;
+  const gainPeak = options?.gain ?? DEFAULT_POP_GAIN;
   try {
     const audioCtx = getAudioContext();
     if (!audioCtx) return;

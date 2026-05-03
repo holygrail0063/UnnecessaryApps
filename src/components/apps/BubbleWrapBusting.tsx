@@ -74,7 +74,7 @@ export function BubbleWrapBusting() {
     (index: number) => {
       if (poppedRef.current[index]) return;
       try {
-        playPopSound({ gain: 0.1 });
+        playPopSound();
       } catch (error) {
         console.warn("Pop sound could not play:", error);
       }
@@ -113,7 +113,7 @@ export function BubbleWrapBusting() {
         setPopped((prev) => {
           if (prev[idx]) return prev;
           try {
-            playPopSound({ gain: 0.032 });
+            playPopSound({ gain: 0.075 });
           } catch (error) {
             console.warn("Pop sound could not play:", error);
           }
