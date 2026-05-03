@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useRef, useState } from "react";
 import { AppDetailHero } from "@/components/apps/AppDetailHero";
+import { playMicrowaveBeep } from "@/lib/playMicrowaveBeep";
 
 const TRANSLATIONS = [
   "Your soup is hot, but your life choices are questionable.",
@@ -63,7 +64,14 @@ export function MicrowaveBeepTranslator() {
 
   const metrics = useMemo(() => randomMetrics(seed), [seed]);
 
-  const runTranslation = useCallback(() => {
+  const runTranslation = useCallback((opts?: { silent?: boolean }) => {
+    if (!opts?.silent) {
+      try {
+        playMicrowaveBeep();
+      } catch (error) {
+        console.warn("Beep sound could not play:", error);
+      }
+    }
     setStatusLine(null);
     setTranslation((prev) => {
       const next = pickTranslation(prev);
@@ -81,10 +89,15 @@ export function MicrowaveBeepTranslator() {
   }, [runTranslation]);
 
   const onEmergencyReBeep = useCallback(() => {
+    try {
+      playMicrowaveBeep();
+    } catch (error) {
+      console.warn("Beep sound could not play:", error);
+    }
     setEmergencyBusy(true);
     setStatusLine("Recalculating microwave emotions…");
     window.setTimeout(() => {
-      runTranslation();
+      runTranslation({ silent: true });
       setEmergencyBusy(false);
     }, 650);
   }, [runTranslation]);
