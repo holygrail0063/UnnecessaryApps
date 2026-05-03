@@ -26,6 +26,7 @@ export const LIVE_APP_ROUTES = [
   "/one-pixel-museum",
   "/is-it-monday-yet",
   "/microwave-beep-translator",
+  "/bubble-wrap-busting",
 ] as const;
 
 export const apps: App[] = [
@@ -114,9 +115,10 @@ export const apps: App[] = [
   },
   {
     id: "bubble-wrap",
-    name: "Virtual Bubble Wrap",
-    shortDescription: "Lets users pop endless bubble wrap.",
-    status: "coming-soon",
+    name: "Bubble Wrap Busting",
+    shortDescription: "Pop endless digital bubbles and feel fake productivity.",
+    status: "live",
+    route: "/bubble-wrap-busting",
   },
   {
     id: "unread-simulator",

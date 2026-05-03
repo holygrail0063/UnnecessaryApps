@@ -21,6 +21,8 @@ export interface ShowcaseApp {
   href?: string;
   /** Stronger storefront hover (lift + tiny wobble) */
   storefrontCard?: boolean;
+  /** Replaces default “Live mini app” footer line when set */
+  footerOverride?: string;
 }
 
 export const SHOP_CATEGORY_TABS: {
@@ -66,6 +68,17 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
     categories: ["pointless", "fake-productivity"],
     href: "/microwave-beep-translator",
     storefrontCard: true,
+  },
+  {
+    id: "bubble-wrap-busting",
+    title: "Bubble Wrap Busting",
+    description: "Pop endless digital bubbles and feel fake productivity.",
+    tag: "POINTLESS",
+    cardBg: "softPink",
+    categories: ["pointless", "games"],
+    href: "/bubble-wrap-busting",
+    storefrontCard: true,
+    footerOverride: "Freshly inflated in our silly kitchen.",
   },
   {
     id: "excuse",

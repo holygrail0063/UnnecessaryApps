@@ -62,10 +62,14 @@ function ShowcaseCard({ app }: { app: ShowcaseApp }) {
         </span>
       </div>
       {app.href ? (
-        <p className="mt-3 text-xs font-bold text-text-muted">
-          Live mini app —{" "}
-          <span className="text-blue-hover underline decoration-2">open the silliness</span>
-        </p>
+        app.footerOverride ? (
+          <p className="mt-3 text-xs font-bold text-text-muted">{app.footerOverride}</p>
+        ) : (
+          <p className="mt-3 text-xs font-bold text-text-muted">
+            Live mini app —{" "}
+            <span className="text-blue-hover underline decoration-2">open the silliness</span>
+          </p>
+        )
       ) : (
         <p className="mt-3 text-xs font-bold text-text-muted">Brewing soon in our silly kitchen.</p>
       )}
@@ -94,6 +98,7 @@ function appIcon(id: ShowcaseApp["id"]) {
     excuse: "🫠",
     "bread-weather": "🍞",
     "pixel-museum": "🖼️",
+    "bubble-wrap-busting": "🫧",
   };
   return map[id] ?? "✨";
 }
