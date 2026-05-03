@@ -10,11 +10,10 @@ import { RandomAppButton } from "@/components/RandomAppButton";
 
 function LogoMarkTiny() {
   return (
-    <svg width="44" height="44" viewBox="0 0 40 40" fill="none" aria-hidden>
-      <circle cx="20" cy="20" r="18" fill="#EDE7FF" stroke="#DDD3EE" strokeWidth="1.5" />
-      <circle cx="14" cy="17" r="5" fill="#FFE8A3" opacity="0.92" />
-      <circle cx="26" cy="21" r="7" fill="#FF9AA2" opacity="0.9" />
-      <ellipse cx="20" cy="29" rx="10" ry="6" fill="#B8F2D8" opacity="0.85" />
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden>
+      <rect x="4" y="4" width="40" height="40" rx="12" fill="#FFF8EA" stroke="#171717" strokeWidth="3" />
+      <circle cx="18" cy="20" r="6" fill="#F9A3A8" stroke="#171717" strokeWidth="2" />
+      <circle cx="32" cy="26" r="8" fill="#FFC1C5" stroke="#171717" strokeWidth="2" />
     </svg>
   );
 }
@@ -34,7 +33,7 @@ function SocialSvg({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="flex h-11 w-11 items-center justify-center rounded-full border border-ua-border bg-white/75 text-ua-text shadow-[var(--shadow-ua-soft-sm)] transition hover:-translate-y-0.5 hover:border-ua-coral/55 hover:bg-ua-yellow/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFB7C5]"
+      className="flex h-12 w-12 items-center justify-center rounded-full border-[3px] border-ink bg-bg-cream text-text-main shadow-cartoon-sm transition hover:-translate-y-0.5 hover:bg-pink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
     >
       {children}
     </a>
@@ -45,25 +44,25 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto border-t border-ua-border/60 bg-[#F1EDFF]/95 px-4 py-16 sm:px-6 lg:px-8">
+    <footer className="mt-auto border-t-[4px] border-ink bg-blue-main px-4 py-16 text-text-main sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
           <div>
             <div className="flex items-center gap-3">
               <LogoMarkTiny />
-              <span className="text-xl font-extrabold text-ua-text">UnnecessaryApps</span>
+              <span className="font-display text-2xl font-bold">UnnecessaryApps</span>
             </div>
-            <p className="mt-4 max-w-md text-sm font-medium leading-relaxed text-ua-muted">
+            <p className="mt-4 max-w-md font-semibold leading-relaxed text-text-main/95">
               Collecting the internet’s most delightfully useless apps so you don’t have to.
             </p>
-            <div className="mt-6 flex flex-wrap gap-2">
+            <div className="mt-6 flex flex-wrap gap-3">
               <SocialSvg label="Twitter / X" href="https://twitter.com">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </SocialSvg>
               <SocialSvg label="Instagram" href="https://instagram.com">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" aria-hidden>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden>
                   <rect x="3" y="3" width="18" height="18" rx="5" />
                   <circle cx="12" cy="12" r="4.2" />
                   <circle cx="17.2" cy="6.9" r="1.15" fill="currentColor" stroke="none" />
@@ -82,29 +81,27 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="rounded-[28px] border border-ua-border/70 bg-[#FFFDF8]/90 p-6 shadow-[var(--shadow-ua-soft-sm)] sm:p-8">
-            <h2 className="text-lg font-extrabold text-ua-text">
-              Get pointless updates
-            </h2>
-            <p className="mt-1 text-sm font-medium text-ua-muted">
+          <div className="rounded-[24px] border-[3px] border-ink bg-bg-cream p-6 shadow-cartoon sm:p-8">
+            <h2 className="font-display text-xl font-bold">Get pointless updates</h2>
+            <p className="mt-1 font-semibold text-text-muted">
               No spam. Just unnecessary apps.
             </p>
             <NewsletterForm />
           </div>
         </div>
 
-        <div className="mt-14 grid gap-10 border-t border-ua-border/50 pt-10 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <h3 className="text-xs font-extrabold uppercase tracking-widest text-ua-muted">
+        <div className="mt-14 grid gap-10 border-t-[3px] border-ink/30 pt-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="lg:border-r-[3px] lg:border-ink/25 lg:pr-8">
+            <h3 className="font-display text-xs font-bold uppercase tracking-widest text-text-main/90">
               Explore
             </h3>
-            <ul className="mt-4 space-y-2 text-sm font-semibold text-ua-text">
+            <ul className="mt-4 space-y-2 font-display font-bold">
               {FOOTER_EXPLORE_LINKS.map((l) => (
                 <li key={l.label}>
                   {l.label === "Random App" ? (
                     <span id="random-app" className="inline-block scroll-mt-36">
                       <RandomAppButton
-                        className="text-left underline decoration-ua-coral/50 decoration-2 underline-offset-2 transition hover:text-ua-coral focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFB7C5]"
+                        className="text-left font-display font-bold text-text-main underline decoration-2 underline-offset-2 transition hover:text-bg-cream focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                         label="Open a random live app"
                       >
                         Random App
@@ -113,7 +110,7 @@ export function Footer() {
                   ) : (
                     <Link
                       href={l.href}
-                      className="transition hover:text-ua-coral focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFB7C5]"
+                      className="text-text-main hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                     >
                       {l.label}
                     </Link>
@@ -122,16 +119,16 @@ export function Footer() {
               ))}
             </ul>
           </div>
-          <div>
-            <h3 className="text-xs font-extrabold uppercase tracking-widest text-ua-muted">
+          <div className="lg:border-r-[3px] lg:border-ink/25 lg:pr-8">
+            <h3 className="font-display text-xs font-bold uppercase tracking-widest text-text-main/90">
               Community
             </h3>
-            <ul className="mt-4 space-y-2 text-sm font-semibold text-ua-text">
+            <ul className="mt-4 space-y-2 font-display font-bold">
               {FOOTER_COMMUNITY_LINKS.map((l) => (
                 <li key={l.label}>
                   <Link
                     href={l.href}
-                    className="transition hover:text-ua-coral focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFB7C5]"
+                    className="text-text-main hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                   >
                     {l.label}
                   </Link>
@@ -140,15 +137,15 @@ export function Footer() {
             </ul>
           </div>
           <div className="sm:col-span-2 lg:col-span-2">
-            <h3 className="text-xs font-extrabold uppercase tracking-widest text-ua-muted">
+            <h3 className="font-display text-xs font-bold uppercase tracking-widest text-text-main/90">
               Legal
             </h3>
-            <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-ua-text">
+            <ul className="mt-4 flex flex-wrap gap-x-8 gap-y-2 font-display font-bold">
               {FOOTER_LEGAL_LINKS.map((l) => (
                 <li key={l.label}>
                   <a
                     href={l.href}
-                    className="transition hover:text-ua-coral focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFB7C5]"
+                    className="text-text-main hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                   >
                     {l.label}
                   </a>
@@ -158,11 +155,11 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-dashed border-ua-border/60 pt-8 text-xs font-semibold text-ua-muted sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t-[3px] border-ink/35 pt-8 text-sm font-bold text-text-main sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <p>© {year} UnnecessaryApps.com</p>
-          <p className="text-ua-text/80">Made with ☁ and way too much free time</p>
-          <span className="inline-flex self-start rounded-full border border-ua-border bg-ua-mint/40 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-ua-text sm:self-auto">
-            Pointless, but cute.
+          <p>Made with ☁ and way too much free time.</p>
+          <span className="inline-flex self-start rounded-full border-[3px] border-ink bg-pink-soft px-3 py-1.5 font-display text-[11px] font-bold uppercase tracking-wide sm:self-auto">
+            Still pointless.
           </span>
         </div>
       </div>

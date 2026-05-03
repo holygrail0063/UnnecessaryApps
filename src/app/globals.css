@@ -1,49 +1,47 @@
 @import "tailwindcss";
 
 :root {
-  --ua-bg: #fff7e8;
-  --ua-bg-secondary: #f1edff;
-  --ua-text: #2e223a;
-  --ua-muted: #7a6b85;
-  --ua-coral: #ff9aa2;
-  --ua-mint: #b8f2d8;
-  --ua-blue: #a7d8ff;
-  --ua-yellow: #ffe8a3;
-  --ua-lavender: #ede7ff;
-  --ua-border: #ddd3ee;
-  --ua-shadow-tint: #ffd6c9;
+  --bg-main: #fff1df;
+  --bg-cream: #fff8ea;
+
+  --pink-main: #f9a3a8;
+  --pink-soft: #ffc1c5;
+  --pink-hover: #ef8f96;
+
+  --blue-main: #27b5e8;
+  --blue-accent: #1fb7f2;
+  --blue-hover: #109fd3;
+
+  --tan: #e8bd82;
+
+  --text-main: #171717;
+  --text-muted: #5f4a43;
+
+  --border-ink: #171717;
+  --shadow-hard: #171717;
 }
 
 @theme inline {
-  --color-ua-bg: var(--ua-bg);
-  --color-ua-bg-secondary: var(--ua-bg-secondary);
-  --color-ua-text: var(--ua-text);
-  --color-ua-muted: var(--ua-muted);
-  --color-ua-coral: var(--ua-coral);
-  --color-ua-mint: var(--ua-mint);
-  --color-ua-blue: var(--ua-blue);
-  --color-ua-yellow: var(--ua-yellow);
-  --color-ua-lavender: var(--ua-lavender);
-  --color-ua-border: var(--ua-border);
-  --color-ua-shadow: var(--ua-shadow-tint);
+  --color-bg-main: var(--bg-main);
+  --color-bg-cream: var(--bg-cream);
+  --color-pink-main: var(--pink-main);
+  --color-pink-soft: var(--pink-soft);
+  --color-pink-hover: var(--pink-hover);
+  --color-blue-main: var(--blue-main);
+  --color-blue-accent: var(--blue-accent);
+  --color-blue-hover: var(--blue-hover);
+  --color-tan: var(--tan);
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+  --color-border-ink: var(--border-ink);
+  --color-ink: var(--border-ink);
 
-  --font-sans: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fredoka), ui-sans-serif, system-ui, sans-serif;
 
-  --radius-ua-card: 24px;
-  --radius-ua-section: 28px;
-  --radius-ua-btn: 18px;
-
-  --shadow-ua-soft:
-    0 10px 38px -12px rgb(255 214 201 / 0.65),
-    0 4px 16px -8px rgb(221 211 238 / 0.45);
-
-  --shadow-ua-soft-sm:
-    0 6px 22px -10px rgb(255 214 201 / 0.55),
-    0 2px 10px -6px rgb(221 211 238 / 0.35);
-
-  --shadow-ua-float:
-    0 14px 44px -14px rgb(255 214 201 / 0.55),
-    0 8px 24px -12px rgb(167 216 255 / 0.22);
+  --shadow-cartoon: 6px 6px 0 var(--border-ink);
+  --shadow-cartoon-sm: 4px 4px 0 var(--border-ink);
+  --shadow-cartoon-hover: 8px 8px 0 var(--border-ink);
 }
 
 @keyframes float-gentle {
@@ -52,7 +50,7 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-7px);
+    transform: translateY(-6px);
   }
 }
 
@@ -62,19 +60,17 @@
     transform: translateY(0) rotate(-2deg);
   }
   50% {
-    transform: translateY(-10px) rotate(2deg);
+    transform: translateY(-8px) rotate(2deg);
   }
 }
 
-@keyframes sparkle {
+@keyframes wiggle {
   0%,
   100% {
-    opacity: 0.55;
-    transform: scale(1);
+    transform: rotate(-1deg);
   }
   50% {
-    opacity: 1;
-    transform: scale(1.08);
+    transform: rotate(1deg);
   }
 }
 
@@ -86,31 +82,39 @@ html {
   html {
     scroll-behavior: auto;
   }
-  .hero-float {
+  .hero-float,
+  .motion-safe-float,
+  .motion-safe-orbit,
+  .motion-safe-wiggle {
     animation: none !important;
   }
-  .motion-safe-float {
-    animation: none !important;
-  }
-  .motion-safe-orbit {
-    animation: none !important;
-  }
+}
+
+/* named shadow utilities (Tailwind v4 theme token → utility) */
+@utility shadow-cartoon {
+  box-shadow: var(--shadow-cartoon);
+}
+@utility shadow-cartoon-sm {
+  box-shadow: var(--shadow-cartoon-sm);
+}
+@utility shadow-cartoon-hover {
+  box-shadow: var(--shadow-cartoon-hover);
 }
 
 .hero-float {
-  animation: float-orbit 6s ease-in-out infinite;
+  animation: float-orbit 5.5s ease-in-out infinite;
 }
 
 .motion-safe-float {
-  animation: float-gentle 5s ease-in-out infinite;
+  animation: float-gentle 4.5s ease-in-out infinite;
 }
 
 .motion-safe-orbit {
-  animation: float-orbit 7s ease-in-out infinite;
+  animation: float-orbit 6.5s ease-in-out infinite;
 }
 
-.motion-safe-sparkle {
-  animation: sparkle 3.5s ease-in-out infinite;
+.motion-safe-wiggle {
+  animation: wiggle 2.8s ease-in-out infinite;
 }
 
 @keyframes confetti-fall {
@@ -135,8 +139,40 @@ html {
   animation: confetti-fall 1.1s ease-out forwards;
 }
 
+/* Cartoon utilities */
+.font-display {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+}
+
+.shadow-cartoon {
+  box-shadow: var(--shadow-cartoon);
+}
+
+.shadow-cartoon-sm {
+  box-shadow: var(--shadow-cartoon-sm);
+}
+
+.shadow-cartoon-hover {
+  box-shadow: var(--shadow-cartoon-hover);
+}
+
+.btn-cartoon {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.btn-cartoon:hover {
+  transform: translate(-2px, -2px);
+}
+
+.btn-cartoon:active {
+  transform: translate(1px, 1px);
+  box-shadow: var(--shadow-cartoon-sm);
+}
+
 body {
-  background: var(--ua-bg);
-  color: var(--ua-text);
+  background: var(--bg-main);
+  color: var(--text-main);
   font-family: var(--font-sans), system-ui, sans-serif;
 }

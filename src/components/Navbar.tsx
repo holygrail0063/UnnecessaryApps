@@ -6,19 +6,32 @@ import { usePathname } from "next/navigation";
 function LogoMark() {
   return (
     <svg
-      width="38"
-      height="38"
-      viewBox="0 0 40 40"
+      width="42"
+      height="42"
+      viewBox="0 0 48 48"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden
       className="shrink-0"
     >
-      <circle cx="20" cy="20" r="18" fill="#EDE7FF" stroke="#DDD3EE" strokeWidth="1.5" />
-      <circle cx="14" cy="17" r="5" fill="#FFE8A3" opacity="0.92" />
-      <circle cx="26" cy="21" r="7" fill="#FF9AA2" opacity="0.9" />
-      <ellipse cx="20" cy="29" rx="10" ry="6" fill="#B8F2D8" opacity="0.85" />
-      <circle cx="12" cy="26" r="3" fill="#A7D8FF" />
+      <rect
+        x="4"
+        y="4"
+        width="40"
+        height="40"
+        rx="12"
+        fill="#FFF8EA"
+        stroke="#171717"
+        strokeWidth="3"
+      />
+      <circle cx="18" cy="20" r="6" fill="#F9A3A8" stroke="#171717" strokeWidth="2" />
+      <circle cx="32" cy="26" r="8" fill="#27B5E8" stroke="#171717" strokeWidth="2" />
+      <path
+        d="M12 38c4-6 10-8 20-8"
+        stroke="#171717"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -27,32 +40,32 @@ export function Navbar() {
   const pathname = usePathname();
 
   const linkBase =
-    "rounded-full px-4 py-2 text-sm font-semibold text-ua-muted transition-colors hover:bg-ua-bg-secondary hover:text-ua-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFB7C5]";
+    "rounded-full border-[3px] border-transparent px-3 py-2 font-display text-sm font-bold text-text-main transition hover:border-ink hover:bg-pink-soft/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:px-4";
 
   return (
-    <header className="sticky top-0 z-50 px-4 pb-3 pt-4 sm:px-6 lg:px-8">
-      <div
-        className="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-[28px] border border-ua-border/70 bg-[#FFFDF8]/92 px-4 py-2 shadow-[var(--shadow-ua-soft-sm)] backdrop-blur-md md:gap-6 md:px-6 md:py-3"
-      >
+    <header className="sticky top-0 z-50 border-b-[4px] border-ink bg-pink-main">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-6 sm:py-4">
         <Link
           href="/"
-          className="flex min-w-0 items-center gap-2 rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFB7C5]"
+          className="flex min-w-0 items-center gap-2 rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:gap-3"
         >
           <LogoMark />
-          <span className="truncate font-bold tracking-tight text-ua-text md:text-lg">
+          <span className="truncate font-display text-lg font-bold tracking-tight text-text-main sm:text-xl md:text-2xl">
             UnnecessaryApps
           </span>
         </Link>
 
         <nav
-          className="hidden flex-1 items-center justify-center gap-1 whitespace-nowrap md:flex lg:gap-2"
+          className="hidden flex-1 items-center justify-center gap-1 lg:flex xl:gap-2"
           aria-label="Primary"
         >
           <Link
             href="/"
             aria-current={pathname === "/" ? "page" : undefined}
             className={`${linkBase} ${
-              pathname === "/" ? "bg-ua-yellow/70 text-ua-text shadow-sm" : ""
+              pathname === "/"
+                ? "border-ink bg-bg-cream shadow-cartoon-sm"
+                : ""
             }`}
           >
             Home
@@ -72,34 +85,37 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <details className="relative md:hidden">
-            <summary className="list-none cursor-pointer rounded-full border border-ua-border bg-ua-lavender/50 px-3 py-2 text-sm font-semibold text-ua-text shadow-[var(--shadow-ua-soft-sm)] [&::-webkit-details-marker]:hidden">
+          <details className="relative lg:hidden">
+            <summary className="list-none cursor-pointer rounded-full border-[3px] border-ink bg-bg-cream px-3 py-2 font-display text-sm font-bold text-text-main shadow-cartoon-sm [&::-webkit-details-marker]:hidden">
               Menu
             </summary>
-            <div className="absolute right-0 z-[60] mt-2 w-[min(100vw-2rem,16rem)] rounded-2xl border border-ua-border bg-[#FFFDF8] p-3 shadow-[var(--shadow-ua-float)]">
-              <ul className="flex flex-col gap-1">
+            <div className="absolute right-0 z-[60] mt-2 w-[min(100vw-2rem,17rem)] rounded-2xl border-[3px] border-ink bg-bg-cream p-2 shadow-cartoon">
+              <ul className="flex flex-col gap-1 font-display font-bold">
                 <li>
-                  <Link href="/" className="block rounded-xl px-3 py-2 font-medium text-ua-text hover:bg-ua-mint/30">
+                  <Link
+                    href="/"
+                    className="block rounded-xl px-3 py-2 text-text-main hover:bg-pink-soft"
+                  >
                     Home
                   </Link>
                 </li>
                 <li>
-                  <a href="#featured-apps" className="block rounded-xl px-3 py-2 font-medium text-ua-text hover:bg-ua-blue/30">
+                  <a href="#featured-apps" className="block rounded-xl px-3 py-2 hover:bg-pink-soft">
                     Apps
                   </a>
                 </li>
                 <li>
-                  <a href="#featured-apps" className="block rounded-xl px-3 py-2 font-medium text-ua-text hover:bg-ua-yellow/50">
+                  <a href="#featured-apps" className="block rounded-xl px-3 py-2 hover:bg-pink-soft">
                     Featured
                   </a>
                 </li>
                 <li>
-                  <Link href="/about" className="block rounded-xl px-3 py-2 font-medium text-ua-text hover:bg-ua-lavender/70">
+                  <Link href="/about" className="block rounded-xl px-3 py-2 hover:bg-pink-soft">
                     About
                   </Link>
                 </li>
                 <li>
-                  <Link href="/submit" className="block rounded-xl px-3 py-2 font-medium text-ua-text hover:bg-ua-mint/35">
+                  <Link href="/submit" className="block rounded-xl px-3 py-2 hover:bg-pink-soft">
                     Submit Idea
                   </Link>
                 </li>
@@ -109,7 +125,7 @@ export function Navbar() {
 
           <Link
             href="#featured-apps"
-            className="inline-flex min-h-[42px] items-center justify-center rounded-full bg-ua-coral px-4 py-2.5 text-xs font-bold tracking-wide text-ua-text shadow-[0_6px_22px_-6px_rgba(255,154,162,0.75)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_28px_-8px_rgba(255,154,162,0.85)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFB7C5] sm:min-h-[46px] sm:px-6 sm:text-[13px]"
+            className="btn-cartoon inline-flex min-h-[44px] items-center justify-center rounded-full border-[3px] border-ink bg-bg-cream px-4 font-display text-xs font-bold text-text-main shadow-cartoon-sm hover:bg-pink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:min-h-[48px] sm:px-5 sm:text-sm"
           >
             <span className="sm:hidden">Explore</span>
             <span className="hidden sm:inline">Explore Apps</span>

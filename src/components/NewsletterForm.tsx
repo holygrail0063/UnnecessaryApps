@@ -22,24 +22,24 @@ export function NewsletterForm() {
           id="newsletter-email"
           name="email"
           type="email"
-          placeholder="your@email.com"
+          placeholder="you@email.com"
           autoComplete="email"
-          className="min-h-[52px] w-full flex-1 rounded-2xl border border-ua-border bg-[#FFFDF8]/95 px-4 text-sm font-medium text-ua-text placeholder:text-ua-muted/70 shadow-inner ring-ua-coral focus:border-ua-coral/60 focus:outline-none focus:ring-2 focus:ring-ua-mint/50"
+          className="min-h-[52px] w-full flex-1 rounded-2xl border-[3px] border-ink bg-bg-cream px-4 font-semibold text-text-main placeholder:text-text-muted/70 shadow-cartoon-sm focus:border-ink focus:outline-none focus:ring-2 focus:ring-blue-accent"
           required={false}
         />
         <button
           type="submit"
-          className="min-h-[52px] shrink-0 rounded-2xl bg-ua-coral px-6 text-sm font-bold text-ua-text shadow-[0_8px_24px_-10px_rgba(255,154,162,0.75)] transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFB7C5]"
+          className="btn-cartoon min-h-[52px] shrink-0 rounded-2xl border-[3px] border-ink bg-pink-main px-6 font-display text-sm font-bold text-text-main shadow-cartoon hover:bg-pink-hover"
         >
           Subscribe
         </button>
       </div>
       {done ? (
-        <p className="text-sm font-semibold text-ua-text" role="status">
-          Thanks! That was entirely optional. We love that for you.
+        <p className="font-display text-sm font-bold text-text-main" role="status">
+          Nice. Another inbox gently haunted.
         </p>
       ) : null}
-      <p className="text-xs font-medium leading-relaxed text-ua-muted">
+      <p className="text-xs font-semibold leading-relaxed text-text-main/85">
         You can unsubscribe when you realize emails are also unnecessary.
       </p>
     </form>

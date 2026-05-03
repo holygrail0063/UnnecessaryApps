@@ -1,39 +1,33 @@
-export type HomepageCategoryId =
+export type ShopCategoryId =
   | "all"
-  | "productivity"
-  | "weird"
-  | "chaos"
-  | "timewasters";
+  | "pointless"
+  | "games"
+  | "fake-productivity"
+  | "chaos";
 
-export type ShowcasePastel =
-  | "pink"
-  | "mint"
-  | "blue"
-  | "yellow"
-  | "lavender"
-  | "peach";
+/** Card shell colors for cartoon rotation */
+export type CartoonCardBg = "cream" | "softPink" | "salmon" | "blue" | "tan";
 
 export interface ShowcaseApp {
   id: string;
   title: string;
   description: string;
   tag: string;
-  pastel: ShowcasePastel;
-  categories: HomepageCategoryId[];
+  cardBg: CartoonCardBg;
+  categories: ShopCategoryId[];
   /** Live app route when clickable */
   href?: string;
 }
 
-export const HOMEPAGE_CATEGORIES: {
-  id: HomepageCategoryId;
+export const SHOP_CATEGORY_TABS: {
+  id: ShopCategoryId;
   label: string;
-  icon: string;
 }[] = [
-  { id: "all", label: "All Apps", icon: "✦" },
-  { id: "productivity", label: "Productivity-ish", icon: "📎" },
-  { id: "weird", label: "Weird Tools", icon: "🌈" },
-  { id: "chaos", label: "Daily Chaos", icon: "☂️" },
-  { id: "timewasters", label: "Time Wasters", icon: "☁️" },
+  { id: "all", label: "ALL APPS" },
+  { id: "pointless", label: "POINTLESS TOOLS" },
+  { id: "games", label: "TINY GAMES" },
+  { id: "fake-productivity", label: "FAKE PRODUCTIVITY" },
+  { id: "chaos", label: "DAILY CHAOS" },
 ];
 
 export const SHOWCASE_APPS: ShowcaseApp[] = [
@@ -41,10 +35,10 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
     id: "monday",
     title: "Is It Monday Yet?",
     description:
-      "Checks the calendar so you don’t have to. (Spoiler: it’s probably Monday.)",
+      "Checks the calendar so you don’t have to. Spoiler: it’s probably Monday.",
     tag: "Featured",
-    pastel: "pink",
-    categories: ["chaos", "timewasters"],
+    cardBg: "softPink",
+    categories: ["chaos", "games"],
   },
   {
     id: "button-clicker",
@@ -52,8 +46,8 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
     description:
       "Click a button. Feel accomplished. Repeat forever.",
     tag: "Pointless",
-    pastel: "mint",
-    categories: ["productivity", "timewasters"],
+    cardBg: "cream",
+    categories: ["pointless", "fake-productivity"],
     href: "/professional-button-clicker",
   },
   {
@@ -62,8 +56,8 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
     description:
       "Finally understand what those beeps actually mean.",
     tag: "Featured",
-    pastel: "lavender",
-    categories: ["weird", "productivity"],
+    cardBg: "blue",
+    categories: ["pointless", "fake-productivity"],
   },
   {
     id: "excuse",
@@ -71,8 +65,8 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
     description:
       "Generate perfect excuses for meetings you don’t want.",
     tag: "Daily Chaos",
-    pastel: "blue",
-    categories: ["chaos", "productivity"],
+    cardBg: "salmon",
+    categories: ["chaos", "fake-productivity"],
   },
   {
     id: "bread-weather",
@@ -80,8 +74,8 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
     description:
       "The forecast, but for bread. Will it be crispy or soggy?",
     tag: "Weird",
-    pastel: "yellow",
-    categories: ["weird"],
+    cardBg: "tan",
+    categories: ["pointless", "games"],
   },
   {
     id: "pixel-museum",
@@ -89,8 +83,8 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
     description:
       "A museum dedicated to exactly one pixel. It’s magnificent.",
     tag: "Featured",
-    pastel: "peach",
-    categories: ["weird", "timewasters"],
+    cardBg: "cream",
+    categories: ["games", "pointless"],
   },
 ];
 
@@ -130,7 +124,7 @@ export interface FooterLink {
 export const FOOTER_EXPLORE_LINKS: FooterLink[] = [
   { label: "All Apps", href: "#featured-apps" },
   { label: "Featured", href: "#featured-apps" },
-  { label: "Categories", href: "#category-filter" },
+  { label: "Categories", href: "#category-strip" },
   { label: "Random App", href: "#random-app" },
 ];
 

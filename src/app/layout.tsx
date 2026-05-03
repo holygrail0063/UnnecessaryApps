@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Fredoka, Nunito } from "next/font/google";
 import "./globals.css";
 
-const plusJakarta = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta",
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "UnnecessaryApps — Beautifully useless apps in one pastel place.",
+    default:
+      "UnnecessaryApps — The cartoon shop for beautifully useless mini apps.",
     template: "%s — UnnecessaryApps",
   },
   description:
@@ -26,9 +33,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakarta.variable} h-full scroll-smooth antialiased`}
+      className={`${fredoka.variable} ${nunito.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-ua-bg font-sans text-ua-text">
+      <body className="min-h-full flex flex-col bg-bg-main font-sans text-text-main">
         {children}
       </body>
     </html>

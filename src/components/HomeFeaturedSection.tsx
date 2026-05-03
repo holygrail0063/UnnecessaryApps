@@ -1,82 +1,56 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import {
-  HOMEPAGE_CATEGORIES,
   SHOWCASE_APPS,
-  type HomepageCategoryId,
+  type CartoonCardBg,
+  type ShopCategoryId,
   type ShowcaseApp,
-  type ShowcasePastel,
 } from "@/data/homepage";
+import { useShopCategory } from "@/components/shop/ShopCategoryContext";
 
-const PASTEL_SURFACE: Record<ShowcasePastel, string> = {
-  pink: "border-[#FFD0DC]/60 bg-gradient-to-br from-[#FFE5EC]/95 to-[#FFF0F5]/90",
-  mint: "border-[#A8E8D0]/55 bg-gradient-to-br from-[#DDF8EA]/95 to-[#E8FBF3]/85",
-  blue: "border-[#B8DFFB]/55 bg-gradient-to-br from-[#D7EEFF]/95 to-[#EAF6FF]/88",
-  yellow: "border-[#FFE39A]/55 bg-gradient-to-br from-[#FFF4CC]/95 to-[#FFF8DE]/85",
-  lavender: "border-[#D4CAF5]/55 bg-gradient-to-br from-[#EDE7FF]/95 to-[#F5F1FF]/88",
-  peach: "border-[#FFCDB2]/55 bg-gradient-to-br from-[#FFE8DD]/95 to-[#FFF2EB]/85",
+const CARD_SHELL: Record<CartoonCardBg, string> = {
+  cream: "bg-bg-cream",
+  softPink: "bg-pink-soft",
+  salmon: "bg-pink-main",
+  blue: "bg-blue-main",
+  tan: "bg-tan",
 };
 
-function filterApps(category: HomepageCategoryId): ShowcaseApp[] {
+function filterApps(category: ShopCategoryId): ShowcaseApp[] {
   if (category === "all") return SHOWCASE_APPS;
   return SHOWCASE_APPS.filter((a) => a.categories.includes(category));
 }
 
 export function HomeFeaturedSection() {
-  const [active, setActive] = useState<HomepageCategoryId>("all");
-  const visible = useMemo(() => filterApps(active), [active]);
+  const { category } = useShopCategory();
+  const visible = useMemo(() => filterApps(category), [category]);
 
   return (
     <section
-      id="category-filter"
-      className="scroll-mt-28 px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
-      aria-labelledby="filter-heading"
+      className="scroll-mt-24 bg-bg-main px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
+      aria-label="Featured apps"
     >
       <div className="mx-auto max-w-6xl">
-        <div className="rounded-[28px] border border-ua-border/60 bg-[#FFFDF8]/80 p-6 shadow-[var(--shadow-ua-soft-sm)] sm:p-8">
-          <h2 id="filter-heading" className="sr-only">
-            Filter apps by category
-          </h2>
-          <div className="flex flex-wrap gap-2 sm:gap-3">
-            {HOMEPAGE_CATEGORIES.map((c) => {
-              const on = active === c.id;
-              return (
-                <button
-                  key={c.id}
-                  type="button"
-                  aria-pressed={on}
-                  onClick={() => setActive(c.id)}
-                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-bold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFB7C5] ${
-                    on
-                      ? "border-ua-text/20 bg-ua-text text-[#FFFDF8] shadow-[var(--shadow-ua-soft-sm)]"
-                      : "border-ua-border bg-ua-lavender/40 text-ua-text hover:-translate-y-0.5 hover:border-ua-coral/40 hover:bg-ua-mint/35"
-                  }`}
-                >
-                  <span aria-hidden className="text-base leading-none">
-                    {c.icon}
-                  </span>
-                  {c.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
         <div
           id="featured-apps"
-          className="scroll-mt-28 mt-12"
-          aria-label="Featured apps"
+          className="scroll-mt-24"
         >
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <h2 className="font-display mb-2 text-center text-2xl font-bold text-text-main sm:text-3xl">
+            Today’s silly specials
+          </h2>
+          <p className="mx-auto mb-10 max-w-lg text-center font-semibold text-text-muted">
+            Tap a category up top, then pick your poison. Thick borders included at no extra charge.
+          </p>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {visible.map((app) => (
               <ShowcaseCard key={app.id} app={app} />
             ))}
           </div>
           {visible.length === 0 ? (
-            <p className="mt-8 text-center text-ua-muted">
-              Nothing here yet — try another chip, you curious legend.
+            <p className="mt-10 text-center font-display font-bold text-text-muted">
+              Nothing in this aisle — try another tab, legend.
             </p>
           ) : null}
         </div>
@@ -86,34 +60,30 @@ export function HomeFeaturedSection() {
 }
 
 function ShowcaseCard({ app }: { app: ShowcaseApp }) {
-  const surface = PASTEL_SURFACE[app.pastel];
+  const shell = CARD_SHELL[app.cardBg];
   const inner = (
     <article
-      className={`flex h-full flex-col rounded-[24px] border p-6 shadow-[var(--shadow-ua-soft-sm)] transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-ua-float)] ${surface}`}
+      className={`flex h-full flex-col rounded-[24px] border-[3px] border-ink p-6 shadow-cartoon transition duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-cartoon-hover ${shell}`}
     >
-      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-[20px] bg-white/70 text-3xl shadow-[var(--shadow-ua-soft-sm)]">
+      <div className="mb-4 flex h-[72px] w-[72px] items-center justify-center rounded-[20px] border-[3px] border-ink bg-bg-cream text-4xl shadow-cartoon-sm">
         {appIcon(app.id)}
       </div>
-      <h3 className="text-xl font-extrabold tracking-tight text-ua-text">
-        {app.title}
-      </h3>
-      <p className="mt-3 flex-1 text-sm font-medium leading-relaxed text-ua-muted">
+      <h3 className="font-display text-xl font-bold text-text-main">{app.title}</h3>
+      <p className="mt-3 flex-1 text-sm font-semibold leading-relaxed text-text-muted">
         {app.description}
       </p>
-      <div className="mt-6">
-        <span className="inline-flex rounded-full border border-ua-border/60 bg-white/70 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-ua-text">
+      <div className="mt-5">
+        <span className="inline-flex rounded-full border-[3px] border-ink bg-bg-cream px-3 py-1.5 font-display text-xs font-bold uppercase tracking-wide text-text-main shadow-cartoon-sm">
           {app.tag}
         </span>
       </div>
       {app.href ? (
-        <p className="mt-3 text-xs font-semibold text-ua-muted">
-          Tap to open —{' '}
-          <span className="text-ua-coral underline decoration-[#FFB7C5]/80">live mini app</span>
+        <p className="mt-3 text-xs font-bold text-text-muted">
+          Live mini app —{" "}
+          <span className="text-blue-hover underline decoration-2">open the silliness</span>
         </p>
       ) : (
-        <p className="mt-3 text-xs font-semibold text-ua-muted opacity-85">
-          Coming imaginatively soon ✦
-        </p>
+        <p className="mt-3 text-xs font-bold text-text-muted">Brewing soon in our silly kitchen.</p>
       )}
     </article>
   );
@@ -122,7 +92,7 @@ function ShowcaseCard({ app }: { app: ShowcaseApp }) {
     return (
       <Link
         href={app.href}
-        className="group block rounded-[24px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FFB7C5]"
+        className="group block rounded-[24px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
       >
         {inner}
       </Link>
