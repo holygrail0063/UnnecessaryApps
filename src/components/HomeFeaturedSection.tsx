@@ -1,14 +1,11 @@
 "use client";
 
-import { useMemo } from "react";
 import Link from "next/link";
 import {
   SHOWCASE_APPS,
   type CartoonCardBg,
-  type ShopCategoryId,
   type ShowcaseApp,
 } from "@/data/homepage";
-import { useShopCategory } from "@/components/shop/ShopCategoryContext";
 
 const CARD_SHELL: Record<CartoonCardBg, string> = {
   cream: "bg-bg-cream",
@@ -18,15 +15,7 @@ const CARD_SHELL: Record<CartoonCardBg, string> = {
   tan: "bg-tan",
 };
 
-function filterApps(category: ShopCategoryId): ShowcaseApp[] {
-  if (category === "all") return SHOWCASE_APPS;
-  return SHOWCASE_APPS.filter((a) => a.categories.includes(category));
-}
-
 export function HomeFeaturedSection() {
-  const { category } = useShopCategory();
-  const visible = useMemo(() => filterApps(category), [category]);
-
   return (
     <section
       id="featured-apps"
@@ -38,18 +27,13 @@ export function HomeFeaturedSection() {
           Today’s silly specials
         </h2>
         <p className="mx-auto mb-10 max-w-lg text-center font-semibold text-text-muted">
-          Tap a category up top, then pick your poison. Thick borders included at no extra charge.
+          The full collection in one place. Thick borders included at no extra charge.
         </p>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((app) => (
+          {SHOWCASE_APPS.map((app) => (
             <ShowcaseCard key={app.id} app={app} />
           ))}
         </div>
-        {visible.length === 0 ? (
-          <p className="mt-10 text-center font-display font-bold text-text-muted">
-            Nothing in this aisle — try another tab, legend.
-          </p>
-        ) : null}
       </div>
     </section>
   );

@@ -1,37 +1,31 @@
-"use client";
-
+import { Fragment } from "react";
 import { SHOP_CATEGORY_TABS } from "@/data/homepage";
-import { useShopCategory } from "@/components/shop/ShopCategoryContext";
 
+/** Decorative category labels only — not interactive. */
 export function CategoryShopBar() {
-  const { category, setCategory } = useShopCategory();
-
   return (
     <div
       id="category-strip"
       className="scroll-mt-24 border-y-[3px] border-ink bg-pink-main"
     >
       <div className="mx-auto max-w-6xl px-2 py-3 sm:px-4 sm:py-4">
-        <p className="sr-only">Browse by silly category</p>
-        <div className="flex gap-1 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:flex-wrap sm:justify-center sm:gap-2 sm:overflow-visible [&::-webkit-scrollbar]:hidden">
-          {SHOP_CATEGORY_TABS.map((tab) => {
-            const active = category === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                aria-pressed={active}
-                onClick={() => setCategory(tab.id)}
-                className={`shrink-0 whitespace-nowrap rounded-xl border-[3px] px-4 py-3 font-display text-[11px] font-bold uppercase tracking-wide text-text-main transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:px-5 sm:text-xs md:text-sm ${
-                  active
-                    ? "border-ink bg-bg-cream shadow-cartoon-sm"
-                    : "border-transparent hover:bg-pink-soft/90 active:bg-pink-hover/80"
-                }`}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
+        <p className="sr-only">
+          Category labels are decorative — browse all apps below.
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 font-display text-[11px] font-bold uppercase tracking-wide text-text-main sm:gap-x-4 sm:text-xs md:text-sm">
+          {SHOP_CATEGORY_TABS.map((tab, i) => (
+            <Fragment key={tab.id}>
+              {i > 0 ? (
+                <span
+                  className="select-none text-text-main/35"
+                  aria-hidden
+                >
+                  ·
+                </span>
+              ) : null}
+              <span className="whitespace-nowrap">{tab.label}</span>
+            </Fragment>
+          ))}
         </div>
       </div>
     </div>

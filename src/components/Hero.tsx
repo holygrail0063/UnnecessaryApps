@@ -16,15 +16,9 @@ export function Hero() {
             Discover absurdly fun tools nobody asked for but everyone secretly enjoys.
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-            <a
-              href="/#featured-apps"
-              className="btn-cartoon inline-flex min-h-[54px] items-center justify-center rounded-full border-[3px] border-ink bg-pink-main px-8 py-3 font-display text-base font-bold text-text-main shadow-cartoon hover:bg-pink-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
-            >
-              Browse Featured
-            </a>
             <Link
               href="/submit"
-              className="btn-cartoon inline-flex min-h-[54px] items-center justify-center rounded-full border-[3px] border-ink bg-bg-cream px-8 py-3 font-display text-base font-bold text-text-main shadow-cartoon hover:bg-pink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+              className="btn-cartoon inline-flex min-h-[54px] w-fit items-center justify-center rounded-full border-[3px] border-ink bg-bg-cream px-8 py-3 font-display text-base font-bold text-text-main shadow-cartoon hover:bg-pink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
             >
               Submit an Idea
             </Link>
