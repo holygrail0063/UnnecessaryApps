@@ -94,19 +94,14 @@ export function BubbleWrapBusting() {
     setBurstIndex(null);
   }, []);
 
-  const resetEmotional = useCallback(() => {
-    const ok = window.confirm(
-      "Reset all emotional attachment to this sheet of pretend plastic?",
-    );
-    if (ok) refill();
-  }, [refill]);
-
   const popAll = useCallback(() => {
     const indices: number[] = [];
     popped.forEach((isPopped, i) => {
       if (!isPopped) indices.push(i);
     });
     if (indices.length === 0) return;
+
+    const lastPopAt = (indices.length - 1) * 20;
 
     indices.forEach((idx, n) => {
       window.setTimeout(() => {
@@ -123,6 +118,24 @@ export function BubbleWrapBusting() {
         });
       }, n * 20);
     });
+
+    window.setTimeout(() => {
+      void (async () => {
+        try {
+          const { default: confetti } = await import("canvas-confetti");
+          confetti({
+            particleCount: 115,
+            spread: 82,
+            origin: { x: 0.5, y: 0.52 },
+            scalar: 1,
+            ticks: 220,
+            colors: ["#F9A3A8", "#27B5E8", "#FFF8EA", "#E8BD82", "#FFC1C5", "#171717"],
+          });
+        } catch {
+          /* confetti optional */
+        }
+      })();
+    }, lastPopAt + 90);
   }, [popped]);
 
   const badge = (id: string, label: string, unlocked: boolean) => (
@@ -243,13 +256,6 @@ export function BubbleWrapBusting() {
               className="btn-cartoon rounded-full border-[3px] border-ink bg-blue-main px-6 py-3 font-display text-sm font-bold text-text-main shadow-cartoon hover:bg-blue-hover sm:min-w-[200px]"
             >
               Pop All
-            </button>
-            <button
-              type="button"
-              onClick={resetEmotional}
-              className="btn-cartoon rounded-full border-[3px] border-ink bg-pink-main px-6 py-3 font-display text-sm font-bold text-text-main shadow-cartoon hover:bg-pink-hover sm:min-w-[240px]"
-            >
-              Reset Emotional Progress
             </button>
           </div>
         </article>
