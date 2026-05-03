@@ -60,7 +60,7 @@ export function Hero() {
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
             <a
-              href="#featured-apps"
+              href="/#featured-apps"
               className="btn-cartoon inline-flex min-h-[54px] items-center justify-center rounded-full border-[3px] border-ink bg-pink-main px-8 py-3 font-display text-base font-bold text-text-main shadow-cartoon hover:bg-pink-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
             >
               Browse Featured

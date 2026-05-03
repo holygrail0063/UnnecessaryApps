@@ -25,7 +25,8 @@ export function HomeBigCta() {
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
-            href="#featured-apps"
+            href="/#featured-apps"
+            scroll
             className="btn-cartoon inline-flex min-h-[56px] min-w-[200px] items-center justify-center rounded-full border-[3px] border-ink bg-bg-cream px-8 font-display text-lg font-bold text-text-main shadow-cartoon hover:bg-pink-soft"
           >
             Browse Apps

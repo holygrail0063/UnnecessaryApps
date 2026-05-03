@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useCallback, useRef } from "react";
 
 function LogoMark() {
   return (
@@ -38,15 +39,23 @@ function LogoMark() {
 
 export function Navbar() {
   const pathname = usePathname();
+  const menuRef = useRef<HTMLDetailsElement>(null);
+
+  const closeMenu = useCallback(() => {
+    menuRef.current?.removeAttribute("open");
+  }, []);
 
   const linkBase =
-    "rounded-full border-[3px] border-transparent px-3 py-2 font-display text-sm font-bold text-text-main transition hover:border-ink hover:bg-pink-soft/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:px-4";
+    "inline-flex min-h-[40px] items-center justify-center rounded-full border-[3px] border-transparent px-3 py-2 font-display text-sm font-bold text-text-main transition hover:border-ink hover:bg-pink-soft/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:px-4";
+
+  const hashLinkClass = `${linkBase} hover:shadow-cartoon-sm`;
 
   return (
     <header className="sticky top-0 z-50 border-b-[4px] border-ink bg-pink-main">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-6 sm:py-4">
         <Link
           href="/"
+          onClick={closeMenu}
           className="flex min-w-0 items-center gap-2 rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:gap-3"
         >
           <LogoMark />
@@ -70,12 +79,12 @@ export function Navbar() {
           >
             Home
           </Link>
-          <a href="#featured-apps" className={linkBase}>
+          <Link href="/#featured-apps" className={hashLinkClass} scroll>
             Apps
-          </a>
-          <a href="#featured-apps" className={linkBase}>
+          </Link>
+          <Link href="/#featured-apps" className={hashLinkClass} scroll>
             Featured
-          </a>
+          </Link>
           <Link href="/about" className={linkBase}>
             About
           </Link>
@@ -85,7 +94,7 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <details className="relative lg:hidden">
+          <details ref={menuRef} className="relative lg:hidden">
             <summary className="list-none cursor-pointer rounded-full border-[3px] border-ink bg-bg-cream px-3 py-2 font-display text-sm font-bold text-text-main shadow-cartoon-sm [&::-webkit-details-marker]:hidden">
               Menu
             </summary>
@@ -94,28 +103,47 @@ export function Navbar() {
                 <li>
                   <Link
                     href="/"
+                    onClick={closeMenu}
                     className="block rounded-xl px-3 py-2 text-text-main hover:bg-pink-soft"
                   >
                     Home
                   </Link>
                 </li>
                 <li>
-                  <a href="#featured-apps" className="block rounded-xl px-3 py-2 hover:bg-pink-soft">
+                  <Link
+                    href="/#featured-apps"
+                    scroll
+                    onClick={closeMenu}
+                    className="block rounded-xl px-3 py-2 hover:bg-pink-soft"
+                  >
                     Apps
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#featured-apps" className="block rounded-xl px-3 py-2 hover:bg-pink-soft">
+                  <Link
+                    href="/#featured-apps"
+                    scroll
+                    onClick={closeMenu}
+                    className="block rounded-xl px-3 py-2 hover:bg-pink-soft"
+                  >
                     Featured
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <Link href="/about" className="block rounded-xl px-3 py-2 hover:bg-pink-soft">
+                  <Link
+                    href="/about"
+                    onClick={closeMenu}
+                    className="block rounded-xl px-3 py-2 hover:bg-pink-soft"
+                  >
                     About
                   </Link>
                 </li>
                 <li>
-                  <Link href="/submit" className="block rounded-xl px-3 py-2 hover:bg-pink-soft">
+                  <Link
+                    href="/submit"
+                    onClick={closeMenu}
+                    className="block rounded-xl px-3 py-2 hover:bg-pink-soft"
+                  >
                     Submit Idea
                   </Link>
                 </li>
@@ -124,7 +152,9 @@ export function Navbar() {
           </details>
 
           <Link
-            href="#featured-apps"
+            href="/#featured-apps"
+            scroll
+            onClick={closeMenu}
             className="btn-cartoon inline-flex min-h-[44px] items-center justify-center rounded-full border-[3px] border-ink bg-bg-cream px-4 font-display text-xs font-bold text-text-main shadow-cartoon-sm hover:bg-pink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:min-h-[48px] sm:px-5 sm:text-sm"
           >
             <span className="sm:hidden">Explore</span>
