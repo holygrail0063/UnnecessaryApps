@@ -108,12 +108,12 @@ export function Footer() {
                       </RandomAppButton>
                     </span>
                   ) : (
-                    <Link
+                    <a
                       href={l.href}
                       className="text-text-main hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                     >
                       {l.label}
-                    </Link>
+                    </a>
                   )}
                 </li>
               ))}

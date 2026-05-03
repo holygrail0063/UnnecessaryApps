@@ -22,10 +22,10 @@ export function CategoryShopBar() {
                 type="button"
                 aria-pressed={active}
                 onClick={() => setCategory(tab.id)}
-                className={`shrink-0 whitespace-nowrap px-4 py-3 font-display text-[11px] font-bold uppercase tracking-wide text-text-main transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:px-5 sm:text-xs md:text-sm ${
+                className={`shrink-0 whitespace-nowrap rounded-xl border-[3px] px-4 py-3 font-display text-[11px] font-bold uppercase tracking-wide text-text-main transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:px-5 sm:text-xs md:text-sm ${
                   active
-                    ? "underline decoration-[3px] decoration-text-main underline-offset-[10px] decoration-wavy"
-                    : "rounded-xl hover:bg-pink-soft/90 active:bg-pink-hover/80"
+                    ? "border-ink bg-bg-cream shadow-cartoon-sm"
+                    : "border-transparent hover:bg-pink-soft/90 active:bg-pink-hover/80"
                 }`}
               >
                 {tab.label}

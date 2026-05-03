@@ -29,31 +29,27 @@ export function HomeFeaturedSection() {
 
   return (
     <section
-      className="scroll-mt-24 bg-bg-main px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
+      id="featured-apps"
+      className="scroll-mt-28 bg-bg-main px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
       aria-label="Featured apps"
     >
       <div className="mx-auto max-w-6xl">
-        <div
-          id="featured-apps"
-          className="scroll-mt-24"
-        >
-          <h2 className="font-display mb-2 text-center text-2xl font-bold text-text-main sm:text-3xl">
-            Today’s silly specials
-          </h2>
-          <p className="mx-auto mb-10 max-w-lg text-center font-semibold text-text-muted">
-            Tap a category up top, then pick your poison. Thick borders included at no extra charge.
-          </p>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {visible.map((app) => (
-              <ShowcaseCard key={app.id} app={app} />
-            ))}
-          </div>
-          {visible.length === 0 ? (
-            <p className="mt-10 text-center font-display font-bold text-text-muted">
-              Nothing in this aisle — try another tab, legend.
-            </p>
-          ) : null}
+        <h2 className="font-display mb-2 text-center text-2xl font-bold text-text-main sm:text-3xl">
+          Today’s silly specials
+        </h2>
+        <p className="mx-auto mb-10 max-w-lg text-center font-semibold text-text-muted">
+          Tap a category up top, then pick your poison. Thick borders included at no extra charge.
+        </p>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {visible.map((app) => (
+            <ShowcaseCard key={app.id} app={app} />
+          ))}
         </div>
+        {visible.length === 0 ? (
+          <p className="mt-10 text-center font-display font-bold text-text-muted">
+            Nothing in this aisle — try another tab, legend.
+          </p>
+        ) : null}
       </div>
     </section>
   );

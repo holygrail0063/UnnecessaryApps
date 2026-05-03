@@ -4,56 +4,13 @@ import { HeroCollage } from "@/components/HeroCollage";
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-bg-main px-4 pb-12 pt-8 sm:px-6 lg:px-8 lg:pb-16 lg:pt-12">
-      {/* doodles */}
-      <span
-        className="pointer-events-none absolute left-[8%] top-[12%] font-display text-3xl motion-safe-wiggle text-text-main"
-        aria-hidden
-      >
-        ★
-      </span>
-      <svg
-        className="pointer-events-none absolute right-[12%] top-[18%] h-14 w-14 text-text-main opacity-80 motion-safe-float"
-        viewBox="0 0 56 56"
-        fill="none"
-        aria-hidden
-      >
-        <path
-          d="M8 40 Q28 8 48 40"
-          stroke="currentColor"
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
-      </svg>
-      <span
-        className="pointer-events-none absolute bottom-[20%] left-[6%] text-2xl motion-safe-orbit"
-        aria-hidden
-      >
-        →
-      </span>
-
       <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-2 lg:items-center lg:gap-12">
         <div className="order-2 lg:order-1">
           <span className="inline-flex items-center gap-2 rounded-full border-[3px] border-ink bg-bg-cream px-4 py-2 font-display text-xs font-bold uppercase tracking-wide text-text-main shadow-cartoon-sm">
             ☁ 100% Pointless · 200% Fun
           </span>
           <h1 className="font-display mt-6 text-4xl font-bold leading-[1.08] tracking-tight text-text-main sm:text-5xl lg:text-[3rem] lg:leading-[1.05]">
-            Beautifully Useless Apps,{" "}
-            <span className="relative inline-block">
-              All in One Place
-              <svg
-                className="pointer-events-none absolute -bottom-2 left-0 w-full text-blue-main"
-                viewBox="0 0 200 12"
-                fill="none"
-                aria-hidden
-              >
-                <path
-                  d="M4 8 Q50 2 100 8 T196 6"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
+            Beautifully Useless Apps, All in One Place
           </h1>
           <p className="mt-6 max-w-xl text-lg font-semibold leading-relaxed text-text-muted sm:text-xl">
             Discover absurdly fun tools nobody asked for but everyone secretly enjoys.

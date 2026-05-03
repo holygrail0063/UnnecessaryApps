@@ -79,12 +79,12 @@ export function Navbar() {
           >
             Home
           </Link>
-          <Link href="/#featured-apps" className={hashLinkClass} scroll>
+          <a href="/#featured-apps" className={hashLinkClass}>
             Apps
-          </Link>
-          <Link href="/#featured-apps" className={hashLinkClass} scroll>
+          </a>
+          <a href="/#featured-apps" className={hashLinkClass}>
             Featured
-          </Link>
+          </a>
           <Link href="/about" className={linkBase}>
             About
           </Link>
@@ -110,24 +110,22 @@ export function Navbar() {
                   </Link>
                 </li>
                 <li>
-                  <Link
+                  <a
                     href="/#featured-apps"
-                    scroll
                     onClick={closeMenu}
                     className="block rounded-xl px-3 py-2 hover:bg-pink-soft"
                   >
                     Apps
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link
+                  <a
                     href="/#featured-apps"
-                    scroll
                     onClick={closeMenu}
                     className="block rounded-xl px-3 py-2 hover:bg-pink-soft"
                   >
                     Featured
-                  </Link>
+                  </a>
                 </li>
                 <li>
                   <Link
@@ -151,15 +149,14 @@ export function Navbar() {
             </div>
           </details>
 
-          <Link
+          <a
             href="/#featured-apps"
-            scroll
             onClick={closeMenu}
             className="btn-cartoon inline-flex min-h-[44px] items-center justify-center rounded-full border-[3px] border-ink bg-bg-cream px-4 font-display text-xs font-bold text-text-main shadow-cartoon-sm hover:bg-pink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:min-h-[48px] sm:px-5 sm:text-sm"
           >
             <span className="sm:hidden">Explore</span>
             <span className="hidden sm:inline">Explore Apps</span>
-          </Link>
+          </a>
         </div>
       </div>
     </header>
