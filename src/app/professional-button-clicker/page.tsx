@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ProfessionalButtonClickerPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#FAFAF8]">
+    <div className="flex min-h-screen flex-col bg-bg-main">
       <AppNavbar />
       <main className="flex-1">
         <ProfessionalButtonClicker />

@@ -76,6 +76,7 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
     tag: "Weird",
     cardBg: "tan",
     categories: ["pointless", "games"],
+    href: "/bread-weather",
   },
   {
     id: "pixel-museum",
@@ -85,6 +86,7 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
     tag: "Featured",
     cardBg: "cream",
     categories: ["games", "pointless"],
+    href: "/one-pixel-museum",
   },
 ];
 

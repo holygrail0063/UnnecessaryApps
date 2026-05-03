@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { AppDetailHero } from "@/components/apps/AppDetailHero";
+import { CartoonCard } from "@/components/apps/CartoonCard";
 
 const CAREER_THRESHOLDS = [
   { min: 0, title: "Unpaid Click Intern" },
@@ -23,6 +25,8 @@ const ACHIEVEMENTS = [
   { id: "director", label: "Director Energy" },
   { id: "stop", label: "Please Stop Clicking" },
 ] as const;
+
+const CONFETTI_COLORS = ["#F9A3A8", "#27B5E8", "#FFC1C5", "#E8BD82", "#FFF8EA"];
 
 function tierFor(clicks: number): CareerTier {
   let current: CareerTier = CAREER_THRESHOLDS[0]!;
@@ -156,20 +160,17 @@ export function ProfessionalButtonClicker() {
 
   const confetti = promoBurst ? (
     <div
-      className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl"
+      className="pointer-events-none absolute inset-0 overflow-hidden rounded-[24px]"
       aria-hidden
     >
       {Array.from({ length: 26 }).map((_, i) => (
         <span
           key={i}
-          className="confetti-chip absolute h-2 w-2 rounded-sm opacity-75"
+          className="confetti-chip absolute h-2.5 w-2.5 rounded-sm opacity-90"
           style={{
             left: `${(i * 29) % 100}%`,
             top: `-10px`,
-            background:
-              i % 3 === 0
-                ? "linear-gradient(to right, #8b5cf6, #22d3ee)"
-                : "#fbbf24",
+            background: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
             animationDelay: `${(i % 11) * 40}ms`,
           }}
         />
@@ -178,61 +179,76 @@ export function ProfessionalButtonClicker() {
   ) : null;
 
   return (
-    <div className="relative overflow-hidden border-b border-zinc-200/60 bg-[#FAFAF8] py-12 sm:py-16 lg:py-20">
+    <div className="relative overflow-hidden pb-16 pt-2 sm:pb-20 lg:pb-24">
+      <AppDetailHero
+        title="Advance your career one meaningless click at a time."
+        subtitle="Click the button, earn fake promotions, and experience the thrill of professional growth without contributing anything measurable."
+        decorations={
+          <>
+            <span className="absolute left-[4%] top-[8%] font-display text-2xl text-text-main motion-safe-wiggle">
+              ★
+            </span>
+            <span className="absolute right-[8%] top-[18%] text-3xl motion-safe-float">☁</span>
+            <svg
+              className="absolute bottom-[12%] left-[10%] h-12 w-12 text-blue-main opacity-90 motion-safe-float"
+              viewBox="0 0 48 48"
+              fill="none"
+              aria-hidden
+            >
+              <path
+                d="M8 36 Q24 10 40 36"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+            </svg>
+          </>
+        }
+      />
 
-      <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
-          Advance your career one meaningless click at a time.
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-zinc-600">
-          Click the button, earn fake promotions, and experience the thrill of professional
-          growth without contributing anything measurable.
-        </p>
-      </div>
-
-      <div className="mx-auto mt-10 max-w-3xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto mt-8 max-w-3xl px-4 sm:px-6 lg:px-8">
         <article
-          className={`relative overflow-hidden rounded-2xl border border-zinc-200/90 bg-white p-8 shadow-xl shadow-zinc-900/[0.07] transition hover:-translate-y-0.5 hover:shadow-2xl ${
-            promoBurst ? "ring-2 ring-violet-200" : ""
+          className={`relative overflow-hidden rounded-[28px] border-[3px] border-ink bg-bg-cream p-8 shadow-cartoon transition sm:p-10 ${
+            promoBurst ? "ring-[3px] ring-pink-soft ring-offset-2 ring-offset-bg-main" : ""
           }`}
         >
           {confetti}
           <div className="relative">
-            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+            <p className="font-display text-xs font-bold uppercase tracking-wide text-text-muted">
               Current fake title
             </p>
-            <p className="mt-2 bg-gradient-to-r from-violet-700 via-fuchsia-600 to-amber-500 bg-clip-text text-3xl font-bold tracking-tight text-transparent transition sm:text-4xl">
+            <p className="font-display mt-3 text-3xl font-bold tracking-tight text-text-main sm:text-4xl">
               {current.title}
             </p>
-            <p className="mt-6 font-mono text-5xl font-semibold tracking-tight text-zinc-900 tabular-nums sm:text-6xl">
+            <p className="mt-6 font-display text-5xl font-bold tabular-nums tracking-tight text-text-main sm:text-6xl">
               {clicks.toLocaleString("en-US")}
             </p>
-            <p className="mt-2 text-xs font-medium uppercase tracking-wide text-zinc-400">
+            <p className="mt-2 font-display text-xs font-bold uppercase tracking-wide text-text-muted">
               clicks (not KPIs — yet)
             </p>
 
-            <div className="mt-6">
+            <div className="mt-8">
               {nextTier ? (
                 <div>
-                  <div className="flex items-center justify-between text-xs font-semibold text-zinc-600">
+                  <div className="flex flex-wrap items-center justify-between gap-2 font-display text-xs font-bold uppercase tracking-wide text-text-muted">
                     <span>Progress to promotion</span>
                     <span>
                       Next promotion at {nextTier.min.toLocaleString("en-US")} clicks
                     </span>
                   </div>
-                  <div className="mt-2 h-3 overflow-hidden rounded-full bg-zinc-100">
+                  <div className="mt-3 h-4 overflow-hidden rounded-full border-[3px] border-ink bg-bg-main shadow-cartoon-sm">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500 shadow-inner transition-all duration-500"
+                      className="h-full rounded-full bg-gradient-to-r from-pink-main to-blue-main transition-all duration-500"
                       style={{ width: `${Math.round(progressBetweenTiers * 100)}%` }}
                     />
                   </div>
-                  <p className="mt-2 text-xs text-zinc-500">
+                  <p className="mt-3 font-semibold text-text-muted">
                     Next milestone:{" "}
-                    <span className="font-semibold text-zinc-700">{nextTier!.title}</span>
+                    <span className="font-display font-bold text-text-main">{nextTier!.title}</span>
                   </p>
                 </div>
               ) : (
-                <p className="text-sm font-semibold text-emerald-700">
+                <p className="font-display font-bold text-blue-hover">
                   Prestige unlocked. Humanity slightly concerned.
                 </p>
               )}
@@ -241,17 +257,17 @@ export function ProfessionalButtonClicker() {
             <button
               type="button"
               onClick={onClickGrowth}
-              className="mt-8 inline-flex min-h-[56px] min-w-[200px] w-full cursor-pointer flex-col justify-center rounded-2xl bg-zinc-900 px-8 py-4 text-lg font-semibold leading-tight text-white shadow-xl shadow-zinc-900/20 transition hover:-translate-y-0.5 hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500 active:translate-y-0 sm:inline-flex sm:w-auto"
+              className="btn-cartoon mt-10 inline-flex min-h-[56px] w-full cursor-pointer flex-col items-center justify-center rounded-full border-[3px] border-ink bg-pink-main px-8 py-4 font-display text-lg font-bold leading-tight text-text-main shadow-cartoon hover:bg-pink-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:w-auto"
             >
               <span>Click for Career Growth</span>
-              <span className="mt-1 block text-[11px] font-normal uppercase tracking-wide text-white/65">
-                No OKRs required beyond vibes
+              <span className="mt-1 block font-display text-[11px] font-bold uppercase tracking-wide text-text-main/85">
+                NO OKRS REQUIRED BEYOND VIBES
               </span>
             </button>
 
-            <p className="mt-8 text-lg font-semibold text-zinc-800">
+            <p className="mt-10 font-display text-xl font-bold text-text-main">
               Estimated Fake Salary:{" "}
-              <span className="tabular-nums text-violet-700">
+              <span className="tabular-nums text-blue-hover">
                 $
                 {clicks === 0
                   ? "0"
@@ -261,53 +277,73 @@ export function ProfessionalButtonClicker() {
           </div>
         </article>
 
-        <section className="mt-10 grid gap-5 md:grid-cols-2">
-          <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg">
-            <h2 className="text-lg font-semibold text-zinc-900">Operational stats</h2>
-            <dl className="mt-5 space-y-3 text-sm text-zinc-600">
-              <div className="flex justify-between gap-3 border-b border-dashed border-zinc-100 pb-2">
+        <section className="mt-10 grid gap-6 md:grid-cols-2">
+          <CartoonCard variant="cream">
+            <div className="flex items-start gap-3">
+              <span className="font-display text-2xl" aria-hidden>
+                📊
+              </span>
+              <div>
+                <h2 className="font-display text-xl font-bold text-text-main">Operational stats</h2>
+                <p className="mt-1 text-sm font-semibold text-text-muted">
+                  Numbers your leadership deck wishes it had.
+                </p>
+              </div>
+            </div>
+            <dl className="mt-6 space-y-3 text-sm font-semibold">
+              <div className="flex justify-between gap-3 border-b-[3px] border-dashed border-ink/15 pb-3 text-text-muted">
                 <dt>Clicks Per Minute</dt>
-                <dd className="font-semibold tabular-nums text-zinc-900">{cpm}</dd>
+                <dd className="tabular-nums font-display font-bold text-text-main">{cpm}</dd>
               </div>
-              <div className="flex justify-between gap-3 border-b border-dashed border-zinc-100 pb-2">
+              <div className="flex justify-between gap-3 border-b-[3px] border-dashed border-ink/15 pb-3 text-text-muted">
                 <dt>Career Growth Index</dt>
-                <dd className="font-semibold text-zinc-900">{cgi}%</dd>
+                <dd className="font-display font-bold text-text-main">{cgi}%</dd>
               </div>
-              <div className="flex justify-between gap-3 border-b border-dashed border-zinc-100 pb-2">
+              <div className="flex justify-between gap-3 border-b-[3px] border-dashed border-ink/15 pb-3 text-text-muted">
                 <dt>Corporate Value Created</dt>
-                <dd className="font-semibold text-zinc-900">$0</dd>
+                <dd className="font-display font-bold text-text-main">$0</dd>
               </div>
-              <div className="flex justify-between gap-3 border-b border-dashed border-zinc-100 pb-2">
+              <div className="flex justify-between gap-3 border-b-[3px] border-dashed border-ink/15 pb-3 text-text-muted">
                 <dt>Button ROI</dt>
-                <dd className="font-semibold text-zinc-900">
+                <dd className="font-display font-bold text-text-main">
                   {roiOptions[clicks % roiOptions.length]}
                 </dd>
               </div>
-              <div className="flex justify-between gap-3 border-b border-dashed border-zinc-100 pb-2">
+              <div className="flex justify-between gap-3 border-b-[3px] border-dashed border-ink/15 pb-3 text-text-muted">
                 <dt>Promotion Velocity</dt>
-                <dd className="font-semibold text-zinc-900">
+                <dd className="font-display font-bold text-text-main">
                   {promotionVelocityLabel}
                 </dd>
               </div>
-              <div className="flex justify-between gap-3">
+              <div className="flex justify-between gap-3 text-text-muted">
                 <dt>Leadership Potential</dt>
-                <dd className="font-semibold text-zinc-900">Somehow increasing</dd>
+                <dd className="font-display font-bold text-text-main">Somehow increasing</dd>
               </div>
             </dl>
-          </div>
+          </CartoonCard>
 
-          <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg">
-            <h2 className="text-lg font-semibold text-zinc-900">Achievement badges</h2>
-            <ul className="mt-5 flex flex-wrap gap-2">
+          <CartoonCard variant="pink">
+            <div className="flex items-start gap-3">
+              <span className="font-display text-2xl" aria-hidden>
+                🏅
+              </span>
+              <div>
+                <h2 className="font-display text-xl font-bold text-text-main">Achievement badges</h2>
+                <p className="mt-1 text-sm font-semibold text-text-muted">
+                  Collect them all. Regret nothing.
+                </p>
+              </div>
+            </div>
+            <ul className="mt-6 flex flex-wrap gap-2">
               {ACHIEVEMENTS.map((a) => {
                 const on = achievementUnlocked(a.id, clicks);
                 return (
                   <li key={a.id}>
                     <span
-                      className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold ${
+                      className={`inline-flex rounded-full border-[3px] px-3 py-1.5 font-display text-xs font-bold ${
                         on
-                          ? "border-emerald-200 bg-emerald-50 text-emerald-900"
-                          : "cursor-default border-zinc-200 bg-zinc-50 text-zinc-400 line-through decoration-zinc-300"
+                          ? "border-ink bg-bg-cream text-text-main shadow-cartoon-sm"
+                          : "border-ink/20 bg-bg-main/80 text-text-muted line-through decoration-text-muted/40"
                       }`}
                     >
                       {a.label}
@@ -317,67 +353,73 @@ export function ProfessionalButtonClicker() {
               })}
             </ul>
 
-            <div className="mt-6 flex flex-wrap gap-2">
+            <div className="mt-8 flex flex-wrap gap-2">
               <button
                 type="button"
                 onClick={onResetAsk}
-                className="rounded-full border border-red-100 bg-red-50 px-4 py-2 text-xs font-semibold text-red-800 transition hover:bg-red-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
+                className="rounded-full border-[3px] border-ink bg-pink-main px-4 py-2 font-display text-xs font-bold text-text-main shadow-cartoon-sm transition hover:bg-pink-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
               >
                 Reset Career
               </button>
               <button
                 type="button"
                 onClick={onLinkedIn}
-                className="rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-xs font-semibold text-sky-900 transition hover:bg-sky-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+                className="rounded-full border-[3px] border-ink bg-blue-main px-4 py-2 font-display text-xs font-bold text-text-main shadow-cartoon-sm transition hover:bg-blue-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
               >
                 Add to LinkedIn
               </button>
               <button
                 type="button"
                 onClick={() => setCertificateOpen(true)}
-                className="rounded-full border border-violet-200 bg-violet-50 px-4 py-2 text-xs font-semibold text-violet-900 transition hover:bg-violet-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+                className="rounded-full border-[3px] border-ink bg-tan px-4 py-2 font-display text-xs font-bold text-text-main shadow-cartoon-sm transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
               >
                 Generate Certificate
               </button>
             </div>
             {linkedinNote ? (
-              <p role="status" className="mt-4 rounded-xl bg-amber-50 px-3 py-2 text-xs font-medium text-amber-900 ring-1 ring-amber-200">
+              <p
+                role="status"
+                className="mt-4 rounded-2xl border-[3px] border-ink bg-bg-cream px-4 py-3 font-display text-xs font-bold text-text-main shadow-cartoon-sm"
+              >
                 {linkedinNote}
               </p>
             ) : null}
-          </div>
+          </CartoonCard>
         </section>
       </div>
 
       {certificateOpen ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/40 px-4 py-10 backdrop-blur-[2px]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-text-main/55 px-4 py-10">
           <div
             role="dialog"
             aria-modal="true"
-            aria-labelledby={`cert-heading`}
-            className="relative w-full max-w-lg rounded-2xl border border-amber-200 bg-gradient-to-b from-[#fefce8] to-white p-8 shadow-2xl"
+            aria-labelledby="cert-heading"
+            className="relative w-full max-w-lg rounded-[28px] border-[3px] border-ink bg-bg-cream p-8 shadow-cartoon-hover sm:p-10"
           >
             <button
               type="button"
               aria-label="Close certificate"
               onClick={() => setCertificateOpen(false)}
-              className="absolute right-4 top-4 rounded-full border border-zinc-200 bg-white px-2 py-1 text-xs font-semibold text-zinc-600 hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+              className="absolute right-4 top-4 rounded-full border-[3px] border-ink bg-pink-soft px-3 py-1.5 font-display text-xs font-bold text-text-main shadow-cartoon-sm hover:bg-pink-main focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
             >
               Close
             </button>
-            <p id="cert-heading" className="text-center font-serif text-xl font-semibold italic text-zinc-900 md:text-2xl">
+            <p
+              id="cert-heading"
+              className="text-center font-display text-xl font-bold italic text-text-main md:text-2xl"
+            >
               Certificate of Unnecessary Excellence
             </p>
-            <div className="mt-8 border-y border-double border-zinc-200 py-6 text-center text-sm leading-relaxed text-zinc-700">
+            <div className="mt-8 border-y-[3px] border-dashed border-ink/25 py-6 text-center text-sm font-semibold leading-relaxed text-text-muted">
               <p>This certifies that the bearer has achieved the title:</p>
-              <p className="mt-4 text-xl font-semibold tracking-tight text-zinc-900">
+              <p className="mt-4 font-display text-2xl font-bold tracking-tight text-text-main">
                 {current.title}
               </p>
-              <p className="mt-6 text-zinc-600">
+              <p className="mt-6">
                 For outstanding contributions to button-based professional development.
               </p>
             </div>
-            <p className="mt-6 text-center font-mono text-[11px] text-zinc-400">
+            <p className="mt-6 text-center font-display text-[11px] font-bold tabular-nums text-text-muted">
               {new Date().toLocaleDateString("en-US", {
                 weekday: "long",
                 month: "long",

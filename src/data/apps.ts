@@ -22,6 +22,8 @@ export const LIVE_APP_ROUTES = [
   "/meeting-buzzword-translator",
   "/professional-button-clicker",
   "/fake-loading-screen-generator",
+  "/bread-weather",
+  "/one-pixel-museum",
 ] as const;
 
 export const apps: App[] = [
@@ -123,6 +125,20 @@ export const apps: App[] = [
     name: "The Overthinking Machine",
     shortDescription: "Takes a simple thought and makes it dramatically worse.",
     status: "coming-soon",
+  },
+  {
+    id: "bread-weather",
+    name: "Bread Weather",
+    shortDescription: "The forecast, but for bread. Crispy, soggy, or philosophical.",
+    status: "live",
+    route: "/bread-weather",
+  },
+  {
+    id: "one-pixel-museum",
+    name: "One Pixel Museum",
+    shortDescription: "A dramatic exhibit for a single pixel. Shush while viewing.",
+    status: "live",
+    route: "/one-pixel-museum",
   },
   {
     id: "tea-coffee-oracle",

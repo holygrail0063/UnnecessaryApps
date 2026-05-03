@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 import { AppNavbar } from "@/components/apps/AppNavbar";
 import { AppFooter } from "@/components/apps/AppFooter";
-import { MeetingBuzzwordTranslator } from "@/components/apps/MeetingBuzzwordTranslator";
+import { OnePixelMuseum } from "@/components/apps/OnePixelMuseum";
 
 export const metadata: Metadata = {
-  title: "Meeting Buzzword Translator",
-  description: "Turn plain English into glorious corporate nonsense.",
+  title: "One Pixel Museum",
+  description: "A museum dedicated to exactly one pixel. It’s magnificent.",
 };
 
-export default function MeetingBuzzwordPage() {
+export default function OnePixelMuseumPage() {
   return (
     <div className="flex min-h-screen flex-col bg-bg-main">
       <AppNavbar />
       <main className="flex-1">
-        <MeetingBuzzwordTranslator />
+        <OnePixelMuseum />
       </main>
       <AppFooter />
     </div>

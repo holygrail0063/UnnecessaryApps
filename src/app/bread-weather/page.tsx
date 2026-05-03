@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 import { AppNavbar } from "@/components/apps/AppNavbar";
 import { AppFooter } from "@/components/apps/AppFooter";
-import { MeetingBuzzwordTranslator } from "@/components/apps/MeetingBuzzwordTranslator";
+import { BreadWeather } from "@/components/apps/BreadWeather";
 
 export const metadata: Metadata = {
-  title: "Meeting Buzzword Translator",
-  description: "Turn plain English into glorious corporate nonsense.",
+  title: "Bread Weather",
+  description: "The forecast, but for bread. Will it be crispy or soggy?",
 };
 
-export default function MeetingBuzzwordPage() {
+export default function BreadWeatherPage() {
   return (
     <div className="flex min-h-screen flex-col bg-bg-main">
       <AppNavbar />
       <main className="flex-1">
-        <MeetingBuzzwordTranslator />
+        <BreadWeather />
       </main>
       <AppFooter />
     </div>
