@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import { SiteSubpageLayout } from "@/components/layouts/SiteSubpageLayout";
 import { ContactPageForm } from "@/components/ContactPageForm";
 
@@ -9,27 +8,21 @@ export const metadata: Metadata = {
     "Send a message, app idea, complaint, compliment, or unnecessary prophecy.",
 };
 
-function SocialBtn({
-  label,
-  href,
-  children,
-}: {
-  label: string;
-  href: string;
-  children: ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      className="flex h-12 min-w-[3rem] flex-1 items-center justify-center rounded-full border-[3px] border-ink bg-bg-cream font-display text-xs font-bold uppercase tracking-wide text-text-main shadow-cartoon-sm transition hover:-translate-y-0.5 hover:bg-pink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:flex-none sm:px-5"
-    >
-      {children}
-    </a>
-  );
-}
+/*
+  Optional “Find us” social row (paste above closing </SiteSubpageLayout> when you have URLs).
+  Discord intentionally omitted.
+
+  <section className="mt-14 rounded-[22px] border-[4px] border-ink bg-bg-main/50 p-6 shadow-cartoon sm:p-8">
+    <h2 className="font-display text-xl font-bold text-text-main sm:text-2xl">
+      Find us where time goes missing
+    </h2>
+    <div className="mt-6 flex flex-wrap gap-3">
+      <a href="YOUR_X_URL" ...>X</a>
+      <a href="YOUR_INSTAGRAM_URL" ...>IG</a>
+      <a href="YOUR_TIKTOK_URL" ...>TikTok</a>
+    </div>
+  </section>
+*/
 
 export default function ContactPage() {
   return (
@@ -47,29 +40,6 @@ export default function ContactPage() {
         </div>
         <ContactPageForm />
       </div>
-
-      <section className="mt-14 rounded-[22px] border-[4px] border-ink bg-bg-main/50 p-6 shadow-cartoon sm:p-8">
-        <h2 className="font-display text-xl font-bold text-text-main sm:text-2xl">
-          Find us where time goes missing
-        </h2>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <SocialBtn label="X (Twitter)" href="https://twitter.com">
-            X
-          </SocialBtn>
-          <SocialBtn label="Instagram" href="https://instagram.com">
-            IG
-          </SocialBtn>
-          <SocialBtn label="TikTok" href="https://tiktok.com">
-            TikTok
-          </SocialBtn>
-          <SocialBtn label="Discord" href="https://discord.com">
-            Discord
-          </SocialBtn>
-        </div>
-        <p className="mt-4 font-display text-sm font-semibold text-text-muted">
-          Placeholder links — swap for your real profiles when ready.
-        </p>
-      </section>
     </SiteSubpageLayout>
   );
 }
