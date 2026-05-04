@@ -54,10 +54,6 @@ export function TimeWastedWidget() {
   return (
     <div className="mx-auto w-full" aria-labelledby="time-wasted-title">
       <div className="time-wasted-shell">
-        <span className="live-waste-badge font-display font-bold uppercase tracking-wide text-text-main">
-          Live waste tracking
-        </span>
-
         {/* floating doodles — pinned to shell, behind pink card */}
         <span
           className="pointer-events-none absolute left-[6%] top-[12%] z-0 text-lg text-text-main motion-safe-float"

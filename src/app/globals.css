@@ -117,7 +117,7 @@ html {
   animation: wiggle 2.8s ease-in-out infinite;
 }
 
-/* Hero “Official Time Wasted” widget — cream shell, pink card, badge */
+/* Hero “Official Time Wasted” widget — cream shell, pink card */
 .time-wasted-shell {
   position: relative;
   background: #fff8ea;
@@ -148,21 +148,6 @@ html {
   box-sizing: border-box;
 }
 
-.live-waste-badge {
-  position: absolute;
-  top: -18px;
-  right: 24px;
-  z-index: 2;
-  background: #f9a3a8;
-  border: 4px solid #171717;
-  border-radius: 999px;
-  padding: 8px 16px;
-  box-shadow: 4px 4px 0 #171717;
-  font-size: 0.75rem;
-  line-height: 1.2;
-  pointer-events: none;
-}
-
 @media (max-width: 768px) {
   .time-wasted-shell {
     padding: 20px;
@@ -172,13 +157,6 @@ html {
   .time-wasted-card {
     padding: 22px;
     border-radius: 22px;
-  }
-
-  .live-waste-badge {
-    right: 16px;
-    top: -14px;
-    font-size: 0.7rem;
-    padding: 6px 12px;
   }
 }
 
