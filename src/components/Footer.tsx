@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import type { FooterLink as FooterLinkType } from "@/data/homepage";
 import {
   FOOTER_COMMUNITY_LINKS,
   FOOTER_EXPLORE_LINKS,
@@ -8,6 +9,23 @@ import {
 import { BrandLogoFooter } from "@/components/BrandLogo";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { RandomAppButton } from "@/components/RandomAppButton";
+
+function FooterRouteLink({ href, label }: FooterLinkType) {
+  const cls =
+    "text-text-main hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+  if (href.startsWith("/") && !href.startsWith("//")) {
+    return (
+      <Link href={href} className={cls}>
+        {label}
+      </Link>
+    );
+  }
+  return (
+    <a href={href} className={cls}>
+      {label}
+    </a>
+  );
+}
 
 function SocialSvg({
   label,
@@ -96,12 +114,7 @@ export function Footer() {
                       </RandomAppButton>
                     </span>
                   ) : (
-                    <a
-                      href={l.href}
-                      className="text-text-main hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
-                    >
-                      {l.label}
-                    </a>
+                    <FooterRouteLink {...l} />
                   )}
                 </li>
               ))}
@@ -114,12 +127,7 @@ export function Footer() {
             <ul className="mt-4 space-y-2 font-display font-bold">
               {FOOTER_COMMUNITY_LINKS.map((l) => (
                 <li key={l.label}>
-                  <Link
-                    href={l.href}
-                    className="text-text-main hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
-                  >
-                    {l.label}
-                  </Link>
+                  <FooterRouteLink {...l} />
                 </li>
               ))}
             </ul>
@@ -131,12 +139,7 @@ export function Footer() {
             <ul className="mt-4 flex flex-wrap gap-x-8 gap-y-2 font-display font-bold">
               {FOOTER_LEGAL_LINKS.map((l) => (
                 <li key={l.label}>
-                  <a
-                    href={l.href}
-                    className="text-text-main hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
-                  >
-                    {l.label}
-                  </a>
+                  <FooterRouteLink {...l} />
                 </li>
               ))}
             </ul>
@@ -145,7 +148,7 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col gap-3 border-t-[3px] border-ink/35 pt-8 text-sm font-bold text-text-main sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <p>© {year} UnnecessaryApps.com</p>
-          <p>Made with ☁ and way too much free time.</p>
+          <p>Made with ❤️ and way too much free time.</p>
           <span className="inline-flex self-start rounded-full border-[3px] border-ink bg-pink-soft px-3 py-1.5 font-display text-[11px] font-bold uppercase tracking-wide sm:self-auto">
             Still pointless.
           </span>

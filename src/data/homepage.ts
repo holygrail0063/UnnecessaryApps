@@ -151,12 +151,12 @@ export const FOOTER_EXPLORE_LINKS: FooterLink[] = [
 export const FOOTER_COMMUNITY_LINKS: FooterLink[] = [
   { label: "About Us", href: "/about" },
   { label: "Submit an Idea", href: "/submit" },
-  { label: "Hall of Pointless Fame", href: "/about" },
-  { label: "Contact", href: "/submit" },
+  { label: "Hall of Pointless Fame", href: "/hall-of-pointless-fame" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const FOOTER_LEGAL_LINKS: FooterLink[] = [
-  { label: "Terms of Use", href: "#" },
-  { label: "Privacy Policy", href: "#" },
-  { label: "Cookie Policy", href: "#" },
+  { label: "Terms of Use", href: "/terms" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Cookie Policy", href: "/cookies" },
 ];
