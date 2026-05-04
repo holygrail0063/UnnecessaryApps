@@ -1,5 +1,4 @@
 import { Navbar } from "@/components/Navbar";
-import { CategoryShopBar } from "@/components/CategoryShopBar";
 import { Hero } from "@/components/Hero";
 import { HomeFeaturedSection } from "@/components/HomeFeaturedSection";
 import { HomeViewAllCta } from "@/components/HomeViewAllCta";
@@ -10,7 +9,6 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <CategoryShopBar />
       <main className="flex-1">
         <Hero />
         <HomeFeaturedSection />

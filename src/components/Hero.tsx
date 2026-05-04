@@ -23,14 +23,6 @@ export function Hero() {
               Submit an Idea
             </Link>
           </div>
-          <p className="mt-8 font-semibold text-text-muted">
-            <span className="inline-flex flex-wrap items-center gap-2 rounded-2xl border-[3px] border-ink bg-bg-cream px-4 py-3 font-display text-sm font-bold text-text-main shadow-cartoon-sm">
-              <span aria-hidden className="text-lg">
-                ✨
-              </span>
-              Loved by 12,847 people who had better things to do.
-            </span>
-          </p>
         </div>
 
         <div className="order-1 lg:order-2">

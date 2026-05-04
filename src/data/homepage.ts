@@ -144,7 +144,7 @@ export interface FooterLink {
 
 export const FOOTER_EXPLORE_LINKS: FooterLink[] = [
   { label: "All Apps", href: "/#featured-apps" },
-  { label: "Categories", href: "/#category-strip" },
+  { label: "Categories", href: "/#featured-apps" },
   { label: "Random App", href: "/#random-app" },
 ];
 
