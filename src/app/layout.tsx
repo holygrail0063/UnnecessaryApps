@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   description: siteDescription,
   metadataBase: new URL("https://unnecessaryapps.com"),
   icons: {
-    icon: [{ url: "/logo-icon.png", type: "image/png", sizes: "512x512" }],
-    apple: "/logo-icon.png",
-    shortcut: "/logo-icon.png",
+    icon: [{ url: "/logo.png", type: "image/png", sizes: "1254x1254" }],
+    apple: "/logo.png",
+    shortcut: "/logo.png",
   },
   openGraph: {
     type: "website",
@@ -40,16 +40,9 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: [
       {
-        url: "/logo-wide.png",
-        width: 400,
-        height: 96,
-        alt: "Unnecessary Apps logo",
-        type: "image/png",
-      },
-      {
-        url: "/logo-icon.png",
-        width: 512,
-        height: 512,
+        url: "/logo.png",
+        width: 1254,
+        height: 1254,
         alt: "Unnecessary Apps logo",
         type: "image/png",
       },
@@ -59,7 +52,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "UnnecessaryApps",
     description: siteDescription,
-    images: ["/logo-icon.png"],
+    images: ["/logo.png"],
   },
 };
 
