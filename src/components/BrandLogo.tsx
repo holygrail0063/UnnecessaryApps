@@ -44,11 +44,11 @@ export function BrandLogoHeader({
       aria-label="Unnecessary Apps home"
       className="group flex min-w-0 shrink-0 items-center rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-out motion-safe:hover:scale-[1.04] motion-safe:active:scale-[0.98]"
     >
-      <span className="relative flex h-10 max-h-10 w-auto max-w-[min(280px,75vw)] shrink-0 items-center">
+      <span className="relative flex h-12 max-h-12 w-auto max-w-[min(380px,82vw)] shrink-0 items-center sm:h-14 sm:max-h-14">
         <BrandImg
           data={logo}
           priority
-          className="max-h-10 w-auto max-w-full object-contain object-left"
+          className="max-h-12 w-auto max-w-full object-contain object-left sm:max-h-14"
         />
       </span>
     </Link>
@@ -62,7 +62,7 @@ export function BrandLogoFooter() {
       className="group flex items-center gap-3 rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-out motion-safe:hover:scale-[1.03]"
       aria-label="Unnecessary Apps home"
     >
-      <span className="relative block h-12 w-12 shrink-0 overflow-hidden sm:h-14 sm:w-14">
+      <span className="relative block h-20 w-20 shrink-0 overflow-hidden sm:h-24 sm:w-24">
         <BrandImg
           data={logo}
           className="h-full w-full object-contain"
