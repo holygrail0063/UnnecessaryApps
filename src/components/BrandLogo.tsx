@@ -42,7 +42,7 @@ export function BrandLogoHeader({
       href="/"
       onClick={onNavigate}
       aria-label="Unnecessary Apps home"
-      className="group flex min-w-0 shrink-0 items-center rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-out motion-safe:hover:scale-[1.04] motion-safe:active:scale-[0.98]"
+      className="group flex min-w-0 shrink-0 items-center gap-2 rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-out motion-safe:hover:scale-[1.04] motion-safe:active:scale-[0.98] sm:gap-3"
     >
       <span className="relative flex h-12 max-h-12 w-auto max-w-[min(380px,82vw)] shrink-0 items-center sm:h-14 sm:max-h-14">
         <BrandImg
@@ -50,6 +50,9 @@ export function BrandLogoHeader({
           priority
           className="max-h-12 w-auto max-w-full object-contain object-left sm:max-h-14"
         />
+      </span>
+      <span className="truncate font-display text-base font-bold lowercase tracking-tight text-text-main sm:text-lg md:text-xl">
+        unnecessary apps
       </span>
     </Link>
   );
