@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandLogoAppNav } from "@/components/BrandLogo";
 
 type AppNavbarProps = {
   /** Small pill beside the logo, e.g. FEATURED APP */
@@ -10,12 +11,7 @@ export function AppNavbar({ badge = "FEATURED APP" }: AppNavbarProps) {
     <header className="sticky top-0 z-40 border-b-[4px] border-ink bg-pink-main">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
         <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
-          <Link
-            href="/"
-            className="truncate font-display text-sm font-bold tracking-tight text-text-main transition hover:text-text-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:text-base"
-          >
-            UnnecessaryApps
-          </Link>
+          <BrandLogoAppNav />
           <span className="hidden shrink-0 rounded-full border-[3px] border-ink bg-bg-cream px-2.5 py-1 font-display text-[10px] font-bold uppercase tracking-wide text-text-main shadow-cartoon-sm sm:inline sm:text-[11px]">
             {badge}
           </span>

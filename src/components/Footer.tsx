@@ -5,18 +5,9 @@ import {
   FOOTER_EXPLORE_LINKS,
   FOOTER_LEGAL_LINKS,
 } from "@/data/homepage";
+import { BrandLogoFooter } from "@/components/BrandLogo";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { RandomAppButton } from "@/components/RandomAppButton";
-
-function LogoMarkTiny() {
-  return (
-    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden>
-      <rect x="4" y="4" width="40" height="40" rx="12" fill="#FFF8EA" stroke="#171717" strokeWidth="3" />
-      <circle cx="18" cy="20" r="6" fill="#F9A3A8" stroke="#171717" strokeWidth="2" />
-      <circle cx="32" cy="26" r="8" fill="#FFC1C5" stroke="#171717" strokeWidth="2" />
-    </svg>
-  );
-}
 
 function SocialSvg({
   label,
@@ -48,10 +39,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
           <div>
-            <div className="flex items-center gap-3">
-              <LogoMarkTiny />
-              <span className="font-display text-2xl font-bold">UnnecessaryApps</span>
-            </div>
+            <BrandLogoFooter />
             <p className="mt-4 max-w-md font-semibold leading-relaxed text-text-main/95">
               Collecting the internet’s most delightfully useless apps so you don’t have to.
             </p>
