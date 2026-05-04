@@ -4,6 +4,7 @@ import { HomeFeaturedSection } from "@/components/HomeFeaturedSection";
 import { HomeViewAllCta } from "@/components/HomeViewAllCta";
 import { StatsStrip } from "@/components/StatsStrip";
 import { HomeBigCta } from "@/components/HomeBigCta";
+import { HomeComingSoonSection } from "@/components/HomeComingSoonSection";
 import { Footer } from "@/components/Footer";
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
         <HomeViewAllCta />
         <StatsStrip />
         <HomeBigCta />
+        <HomeComingSoonSection />
       </main>
       <Footer />
     </>
