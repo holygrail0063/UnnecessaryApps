@@ -3,7 +3,7 @@ import { TimeWastedWidget } from "@/components/TimeWastedWidget";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-bg-main px-4 pb-12 pt-8 sm:px-6 lg:px-8 lg:pb-16 lg:pt-12">
+    <section className="relative overflow-x-hidden overflow-y-visible bg-bg-main px-4 pb-12 pt-8 sm:px-6 lg:px-8 lg:pb-16 lg:pt-12">
       <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-2 lg:items-center lg:gap-12">
         <div className="order-2 lg:order-1">
           <span className="inline-flex items-center gap-2 rounded-full border-[3px] border-ink bg-bg-cream px-4 py-2 font-display text-xs font-bold uppercase tracking-wide text-text-main shadow-cartoon-sm">

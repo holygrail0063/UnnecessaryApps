@@ -52,44 +52,40 @@ export function TimeWastedWidget() {
   const message = MESSAGES[msgIndex]!;
 
   return (
-    <div
-      className="relative mx-auto aspect-[5/4] w-full max-w-lg lg:aspect-[4/3] lg:max-w-none"
-      aria-labelledby="time-wasted-title"
-    >
-      {/* outer frame — cream shell */}
-      <div className="relative flex h-full min-h-[280px] w-full flex-col rounded-[28px] border-[3px] border-ink bg-bg-cream p-3 shadow-cartoon sm:min-h-[320px] sm:p-4">
-        <span className="pointer-events-none absolute -right-1 -top-2 z-10 rotate-[-4deg] rounded-full border-[3px] border-ink bg-pink-main px-2.5 py-1 font-display text-[10px] font-bold uppercase tracking-wide text-text-main shadow-cartoon-sm sm:text-[11px]">
+    <div className="mx-auto w-full" aria-labelledby="time-wasted-title">
+      <div className="time-wasted-shell">
+        <span className="live-waste-badge font-display font-bold uppercase tracking-wide text-text-main">
           Live waste tracking
         </span>
 
-        {/* floating doodles on frame */}
+        {/* floating doodles — pinned to shell, behind pink card */}
         <span
-          className="pointer-events-none absolute left-[6%] top-[10%] text-lg text-text-main motion-safe-float"
+          className="pointer-events-none absolute left-[6%] top-[12%] z-0 text-lg text-text-main motion-safe-float"
           aria-hidden
         >
           🕐
         </span>
         <span
-          className="pointer-events-none absolute right-[10%] top-[14%] text-base motion-safe-orbit"
+          className="pointer-events-none absolute right-[8%] top-[14%] z-0 text-base text-text-main motion-safe-orbit"
           aria-hidden
         >
           ✨
         </span>
         <span
-          className="pointer-events-none absolute bottom-[18%] left-[8%] font-display text-sm font-bold text-blue-main motion-safe-wiggle"
+          className="pointer-events-none absolute bottom-[16%] left-[7%] z-0 font-display text-sm font-bold text-blue-main motion-safe-wiggle"
           aria-hidden
         >
           zzz
         </span>
         <span
-          className="pointer-events-none absolute bottom-[22%] right-[12%] text-lg text-text-main motion-safe-float"
+          className="pointer-events-none absolute bottom-[20%] right-[10%] z-0 text-lg text-text-main motion-safe-float"
           style={{ animationDelay: "0.8s" }}
           aria-hidden
         >
           ★
         </span>
         <svg
-          className="pointer-events-none absolute right-[6%] top-[38%] h-10 w-14 text-pink-main motion-safe-orbit"
+          className="pointer-events-none absolute right-[6%] top-[40%] z-0 h-10 w-14 text-pink-main motion-safe-orbit"
           viewBox="0 0 56 40"
           fill="none"
           aria-hidden
@@ -102,14 +98,13 @@ export function TimeWastedWidget() {
           />
         </svg>
         <span
-          className="pointer-events-none absolute left-[12%] top-[42%] font-display text-xs font-bold text-text-main"
+          className="pointer-events-none absolute left-[10%] top-[44%] z-0 font-display text-xs font-bold text-text-main"
           aria-hidden
         >
           →
         </span>
 
-        {/* inner widget card */}
-        <div className="relative z-[1] mt-6 flex flex-1 flex-col rounded-[22px] border-[3px] border-ink bg-pink-soft p-4 shadow-cartoon-sm sm:mt-7 sm:p-5">
+        <div className="time-wasted-card flex flex-col">
           <div className="text-center font-display text-[10px] font-bold uppercase tracking-widest text-text-muted">
             Official counter
           </div>
@@ -122,7 +117,7 @@ export function TimeWastedWidget() {
 
           <div className="mx-auto mt-4 w-full max-w-[240px] rounded-2xl border-[3px] border-ink bg-bg-cream px-4 py-4 text-center shadow-cartoon-sm sm:max-w-[280px] sm:py-5">
             <div
-              className="font-display text-3xl font-bold tabular-nums tracking-tight text-text-main sm:text-4xl"
+              className="font-display text-[clamp(1.5rem,5vw,2.25rem)] font-bold tabular-nums leading-none tracking-tight text-text-main sm:text-4xl"
               role="timer"
               aria-live="off"
               aria-label={`Elapsed time ${timerText}`}
@@ -147,7 +142,7 @@ export function TimeWastedWidget() {
           </div>
 
           <div className="mt-5">
-            <div className="flex items-end justify-between gap-2 font-display text-[10px] font-bold uppercase tracking-wide text-text-muted">
+            <div className="flex flex-wrap items-end justify-between gap-2 font-display text-[10px] font-bold uppercase tracking-wide text-text-muted">
               <span>Unnecessary progress</span>
               <span className="normal-case">looping forever</span>
             </div>
@@ -171,7 +166,7 @@ export function TimeWastedWidget() {
 
           {showPlusOne ? (
             <span
-              className="pointer-events-none absolute right-[12%] top-[48%] z-20 rounded-full border-[3px] border-ink bg-bg-cream px-2 py-1 font-display text-[10px] font-black uppercase text-text-main shadow-cartoon-sm motion-safe-float"
+              className="pointer-events-none absolute right-[10%] top-[42%] z-20 rounded-full border-[3px] border-ink bg-bg-cream px-2 py-1 font-display text-[10px] font-black uppercase text-text-main shadow-cartoon-sm motion-safe-float sm:right-[12%] sm:top-[48%]"
               aria-hidden
             >
               +1 wasted sec
