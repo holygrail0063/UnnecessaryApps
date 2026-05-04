@@ -1,5 +1,4 @@
 export type ShopCategoryId =
-  | "all"
   | "pointless"
   | "games"
   | "fake-productivity"
@@ -29,7 +28,6 @@ export const SHOP_CATEGORY_TABS: {
   id: ShopCategoryId;
   label: string;
 }[] = [
-  { id: "all", label: "ALL APPS" },
   { id: "pointless", label: "POINTLESS TOOLS" },
   { id: "games", label: "TINY GAMES" },
   { id: "fake-productivity", label: "FAKE PRODUCTIVITY" },
