@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HeroCollage } from "@/components/HeroCollage";
+import { TimeWastedWidget } from "@/components/TimeWastedWidget";
 
 export function Hero() {
   return (
@@ -34,7 +34,7 @@ export function Hero() {
         </div>
 
         <div className="order-1 lg:order-2">
-          <HeroCollage />
+          <TimeWastedWidget />
         </div>
       </div>
     </section>

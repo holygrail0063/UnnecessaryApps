@@ -117,6 +117,81 @@ html {
   animation: wiggle 2.8s ease-in-out infinite;
 }
 
+@keyframes time-wasted-progress {
+  0% {
+    transform: scaleX(0);
+  }
+  72% {
+    transform: scaleX(1);
+  }
+  88% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes time-wasted-badge-nudge {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-0.6deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(0.6deg);
+  }
+}
+
+@keyframes time-wasted-dot-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.time-wasted-progress-fill {
+  transform-origin: left center;
+  animation: time-wasted-progress 10s ease-in-out infinite;
+}
+
+.time-wasted-badge {
+  animation: time-wasted-badge-nudge 2.8s ease-in-out infinite;
+}
+
+.time-wasted-dot {
+  animation: time-wasted-dot-pulse 1.4s ease-in-out infinite;
+}
+
+.time-wasted-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.time-wasted-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .time-wasted-progress-fill {
+    animation: none;
+    transform: scaleX(0.55);
+  }
+
+  .time-wasted-badge {
+    animation: none;
+  }
+
+  .time-wasted-dot {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes confetti-fall {
   0% {
     transform: translateY(0) rotate(0deg);
