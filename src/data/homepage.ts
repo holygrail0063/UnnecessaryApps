@@ -86,6 +86,7 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
     tag: "Daily Chaos",
     cardBg: "salmon",
     categories: ["chaos", "fake-productivity"],
+    href: "/meeting-excuse-generator",
   },
   {
     id: "bread-weather",

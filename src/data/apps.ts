@@ -27,6 +27,7 @@ export const LIVE_APP_ROUTES = [
   "/is-it-monday-yet",
   "/microwave-beep-translator",
   "/bubble-wrap-busting",
+  "/meeting-excuse-generator",
 ] as const;
 
 export const apps: App[] = [
@@ -102,9 +103,11 @@ export const apps: App[] = [
   },
   {
     id: "excuse-generator",
-    name: "Excuse Generator 3000",
-    shortDescription: "Creates ridiculous excuses for being late.",
-    status: "coming-soon",
+    name: "Meeting Excuse Generator",
+    shortDescription:
+      "Professional-sounding nonsense for meetings you absolutely do not want.",
+    status: "live",
+    route: "/meeting-excuse-generator",
   },
   {
     id: "hungry-or-bored",

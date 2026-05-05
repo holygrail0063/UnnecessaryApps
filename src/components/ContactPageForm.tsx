@@ -14,10 +14,38 @@ const MESSAGE_TYPES = [
 export function ContactPageForm() {
   const formId = useId();
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSent(true);
+    setError(null);
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const name = String(fd.get("name") ?? "").trim();
+    const email = String(fd.get("email") ?? "").trim();
+    const type = String(fd.get("type") ?? "").trim();
+    const message = String(fd.get("message") ?? "").trim();
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, type, message }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) {
+        setError(data.error ?? "Something went wrong. Try again?");
+        return;
+      }
+      setSent(true);
+      form.reset();
+    } catch {
+      setError("Network error — check your connection and try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   if (sent) {
@@ -45,6 +73,14 @@ export function ContactPageForm() {
       onSubmit={handleSubmit}
       className="space-y-5 rounded-[22px] border-[4px] border-ink bg-bg-main/80 p-5 shadow-cartoon-sm sm:p-6"
     >
+      {error ? (
+        <p
+          className="rounded-xl border-[3px] border-ink bg-pink-main/50 px-4 py-3 font-display text-sm font-bold text-text-main"
+          role="alert"
+        >
+          {error}
+        </p>
+      ) : null}
       <div>
         <label
           htmlFor={`${formId}-name`}
@@ -58,7 +94,8 @@ export function ContactPageForm() {
           type="text"
           required
           autoComplete="name"
-          className="mt-2 w-full rounded-xl border-[3px] border-ink bg-bg-cream px-4 py-3 font-semibold text-text-main shadow-cartoon-sm outline-none transition placeholder:text-text-muted/60 focus-visible:ring-2 focus-visible:ring-ink"
+          disabled={loading}
+          className="mt-2 w-full rounded-xl border-[3px] border-ink bg-bg-cream px-4 py-3 font-semibold text-text-main shadow-cartoon-sm outline-none transition placeholder:text-text-muted/60 focus-visible:ring-2 focus-visible:ring-ink disabled:opacity-60"
           placeholder="Your name (or secret alias)"
         />
       </div>
@@ -75,7 +112,8 @@ export function ContactPageForm() {
           type="email"
           required
           autoComplete="email"
-          className="mt-2 w-full rounded-xl border-[3px] border-ink bg-bg-cream px-4 py-3 font-semibold text-text-main shadow-cartoon-sm outline-none transition placeholder:text-text-muted/60 focus-visible:ring-2 focus-visible:ring-ink"
+          disabled={loading}
+          className="mt-2 w-full rounded-xl border-[3px] border-ink bg-bg-cream px-4 py-3 font-semibold text-text-main shadow-cartoon-sm outline-none transition placeholder:text-text-muted/60 focus-visible:ring-2 focus-visible:ring-ink disabled:opacity-60"
           placeholder="you@example.com"
         />
       </div>
@@ -90,7 +128,8 @@ export function ContactPageForm() {
           id={`${formId}-type`}
           name="type"
           required
-          className="mt-2 w-full rounded-xl border-[3px] border-ink bg-bg-cream px-4 py-3 font-semibold text-text-main shadow-cartoon-sm outline-none focus-visible:ring-2 focus-visible:ring-ink"
+          disabled={loading}
+          className="mt-2 w-full rounded-xl border-[3px] border-ink bg-bg-cream px-4 py-3 font-semibold text-text-main shadow-cartoon-sm outline-none focus-visible:ring-2 focus-visible:ring-ink disabled:opacity-60"
         >
           {MESSAGE_TYPES.map((t) => (
             <option key={t} value={t}>
@@ -111,19 +150,22 @@ export function ContactPageForm() {
           name="message"
           required
           rows={5}
-          className="mt-2 w-full resize-y rounded-xl border-[3px] border-ink bg-bg-cream px-4 py-3 font-semibold text-text-main shadow-cartoon-sm outline-none transition placeholder:text-text-muted/60 focus-visible:ring-2 focus-visible:ring-ink"
+          disabled={loading}
+          className="mt-2 w-full resize-y rounded-xl border-[3px] border-ink bg-bg-cream px-4 py-3 font-semibold text-text-main shadow-cartoon-sm outline-none transition placeholder:text-text-muted/60 focus-visible:ring-2 focus-visible:ring-ink disabled:opacity-60"
           placeholder="Type something brilliantly unnecessary…"
         />
       </div>
       <button
         type="submit"
-        className="btn-cartoon w-full rounded-full border-[3px] border-ink bg-pink-main px-6 py-3.5 font-display text-base font-bold text-text-main shadow-cartoon transition hover:bg-pink-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:w-auto"
+        disabled={loading}
+        className="btn-cartoon w-full rounded-full border-[3px] border-ink bg-pink-main px-6 py-3.5 font-display text-base font-bold text-text-main shadow-cartoon transition hover:bg-pink-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink enabled:motion-safe:hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
       >
-        Send Pointless Message
+        {loading ? "Sending…" : "Send Pointless Message"}
       </button>
       <p className="font-display text-xs font-bold text-text-muted">
-        This form is frontend-only for now — nothing is stored on a server. It’s mostly vibes and
-        immediate emotional closure.
+        Submissions are emailed to the site owner via Resend. Add{" "}
+        <code className="rounded bg-bg-cream px-1 py-0.5 font-mono text-[11px]">RESEND_API_KEY</code>{" "}
+        in production so messages actually send.
       </p>
       <p className="font-display text-sm font-semibold text-text-muted">
         Prefer legalese? See{" "}

@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# static export / Capacitor build output (if generated)
+/dist/
+
 # production
 /build
 
