@@ -28,6 +28,8 @@ export const LIVE_APP_ROUTES = [
   "/microwave-beep-translator",
   "/bubble-wrap-busting",
   "/meeting-excuse-generator",
+  "/button-with-trust-issues",
+  "/tab-graveyard",
 ] as const;
 
 export const apps: App[] = [
@@ -54,15 +56,16 @@ export const apps: App[] = [
   },
   {
     id: "fake-loading-screen",
-    name: "Fake Loading Screen Generator",
-    shortDescription: "Creates a loading screen that never really finishes.",
+    name: "Fake Loading Screen Simulator",
+    shortDescription:
+      "A loading bar with no ambition to complete. Emotional damage as a service.",
     status: "live",
     route: "/fake-loading-screen-generator",
     featuredOrder: 3,
     featuredDescription:
-      "Experience the thrill of watching progress bars pretend to work.",
+      "A dramatic progress bar that stalls near the finish line on purpose.",
     featuredExample:
-      "Optimizing unnecessary dependencies… · Calibrating pointless systems… · Almost there… probably…",
+      "Convincing pixels to cooperate… · Downloading more patience… · Almost there. Emotionally, not technically.",
   },
   {
     id: "refresh-email",
@@ -168,6 +171,21 @@ export const apps: App[] = [
     shortDescription: "Makes ordinary life sound cinematic and dramatic.",
     status: "coming-soon",
     accentBadge: "Probably Useless",
+  },
+  {
+    id: "button-trust-issues",
+    name: "Button With Trust Issues",
+    shortDescription: "A button that runs away when you try to click it.",
+    status: "live",
+    route: "/button-with-trust-issues",
+  },
+  {
+    id: "tab-graveyard-app",
+    name: "Tab Graveyard",
+    shortDescription:
+      "A fake cemetery for browser tabs you definitely planned to read.",
+    status: "live",
+    route: "/tab-graveyard",
   },
 ];
 

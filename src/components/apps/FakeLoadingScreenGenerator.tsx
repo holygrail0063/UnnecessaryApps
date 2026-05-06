@@ -1,423 +1,295 @@
 "use client";
 
-import { useEffect, useId, useMemo, useState } from "react";
-import {
-  getMessagesFor,
-  loadingTypeLabels,
-  PANIC_ALERT_LINES,
-  randomLogLines,
-  type LoadingFlavor,
-} from "@/lib/fakeLoadingMessages";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { AppDetailHero } from "@/components/apps/AppDetailHero";
+import { CartoonCard } from "@/components/apps/CartoonCard";
 
-function nowStamp() {
-  const d = new Date();
-  return d.toLocaleTimeString("en-US", { hour12: false });
-}
+const STATUS_LINES = [
+  "Convincing pixels to cooperate...",
+  "Downloading more patience...",
+  "Asking the server nicely...",
+  "Reticulating unnecessary splines...",
+  "Almost there. Emotionally, not technically.",
+  "Negotiating with the progress bar...",
+  "Preparing to prepare...",
+] as const;
 
-function panicLine() {
-  return PANIC_ALERT_LINES[
-    Math.floor(Math.random() * PANIC_ALERT_LINES.length)
-  ]!;
+const SETBACK_LINES = [
+  "Oops, the vibes changed.",
+  "Progress got shy.",
+  "A tiny bug filed a complaint.",
+] as const;
+
+type DramaLevel = "mild" | "annoying" | "corporate";
+
+const DRAMA_PRESETS: Record<
+  DramaLevel,
+  { label: string; tickMs: number; setbackChance: number; msgEveryMs: number; step: number }
+> = {
+  mild: {
+    label: "Mild",
+    tickMs: 720,
+    setbackChance: 0.065,
+    msgEveryMs: 3600,
+    step: 1.8,
+  },
+  annoying: {
+    label: "Annoying",
+    tickMs: 480,
+    setbackChance: 0.13,
+    msgEveryMs: 2400,
+    step: 3.1,
+  },
+  corporate: {
+    label: "Corporate Software",
+    tickMs: 310,
+    setbackChance: 0.2,
+    msgEveryMs: 1650,
+    step: 4.6,
+  },
+};
+
+function randomEta(): string {
+  const m = Math.floor(Math.random() * 8) + 1;
+  const s = Math.floor(Math.random() * 59);
+  return `${m}m ${String(s).padStart(2, "0")}s`;
 }
 
 export function FakeLoadingScreenGenerator() {
-  const [flavor, setFlavor] = useState<LoadingFlavor>("corporate");
-  const [panic, setPanic] = useState(false);
+  const dramaGroupId = useId();
+  const [drama, setDrama] = useState<DramaLevel>("annoying");
   const [running, setRunning] = useState(false);
+  const [gaveUp, setGaveUp] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [dramaticShift, setDramaticShift] = useState(0);
-  const [messageIndex, setMessageIndex] = useState(0);
-  const [logs, setLogs] = useState<string[]>([]);
-  const [fateTaken, setFateTaken] = useState(false);
+  const [lineIdx, setLineIdx] = useState(0);
+  const [setbackMsg, setSetbackMsg] = useState<string | null>(null);
+  const [eta, setEta] = useState("—");
+  const capRef = useRef(98);
+  const tickRef = useRef<number | null>(null);
+  const msgTickRef = useRef<number | null>(null);
+  const etaRef = useRef<number | null>(null);
 
-  const messages = useMemo(
-    () => getMessagesFor(flavor, panic),
-    [flavor, panic],
-  );
+  const displayPct = Math.min(99, Math.floor(progress));
 
-  const displayLine = useMemo(() => {
-    if (!messages.length) return "";
-    const idx =
-      ((messageIndex % messages.length) + messages.length) % messages.length;
-    return messages[idx] ?? "";
-  }, [messages, messageIndex]);
+  const p = DRAMA_PRESETS[drama];
 
-  const animationLocked =
-    !running || fateTaken || Math.round(progress) >= 99;
+  const clearTimers = useCallback(() => {
+    if (tickRef.current) window.clearInterval(tickRef.current);
+    if (msgTickRef.current) window.clearInterval(msgTickRef.current);
+    if (etaRef.current) window.clearInterval(etaRef.current);
+    tickRef.current = null;
+    msgTickRef.current = null;
+    etaRef.current = null;
+  }, []);
+
+  useEffect(() => () => clearTimers(), [clearTimers]);
+
+  const startLoading = () => {
+    clearTimers();
+    setGaveUp(false);
+    setProgress(0);
+    setLineIdx(Math.floor(Math.random() * STATUS_LINES.length));
+    setSetbackMsg(null);
+    setEta(randomEta());
+    capRef.current = 97 + Math.floor(Math.random() * 3);
+    setRunning(true);
+  };
+
+  const reset = () => {
+    clearTimers();
+    setRunning(false);
+    setGaveUp(false);
+    setProgress(0);
+    setSetbackMsg(null);
+    setEta("—");
+  };
+
+  const giveUp = () => {
+    clearTimers();
+    setRunning(false);
+    setGaveUp(true);
+    setSetbackMsg(null);
+  };
 
   useEffect(() => {
-    if (animationLocked) return undefined;
+    if (!running || gaveUp) return undefined;
 
-    let alive = true;
-    const jitter =
-      panic ? 180 + (dramaticShift % 520) : dramaticShift % 740;
+    tickRef.current = window.setInterval(() => {
+      setProgress((prev) => {
+        const cap = capRef.current;
+        if (prev >= cap - 0.01) return cap;
 
-    const tick = window.setInterval(() => {
-      if (!alive) return;
-
-      setProgress((p) => {
-        if (p >= 99) return 99;
-        let bump = 0;
-        if (p < 58)
-          bump = Math.random() < 0.92 ? Math.floor(Math.random() * 6) + 3 : 0;
-        else if (p < 82)
-          bump = Math.random() < 0.88 ? Math.floor(Math.random() * 4) + 1 : 0;
-        else if (p < 97)
-          bump =
-            panic && Math.random() < 0.38
-              ? Math.floor(Math.random() * 3) + 1
-              : Math.random() < 0.35
-                ? 1
-                : 0;
-        else {
-          bump = panic
-            ? Math.random() < 0.25
-              ? Math.random() < 0.5
-                ? -1
-                : 1
-              : 0
-            : Math.random() < 0.2
-              ? 1
-              : 0;
+        const cfg = DRAMA_PRESETS[drama];
+        if (Math.random() < cfg.setbackChance) {
+          const drop = 1.5 + Math.random() * 6;
+          setSetbackMsg(SETBACK_LINES[Math.floor(Math.random() * SETBACK_LINES.length)]!);
+          window.setTimeout(() => setSetbackMsg(null), 2200);
+          return Math.max(0, prev - drop);
         }
 
-        if (panic && Math.random() < 0.16) bump += Math.floor(Math.random() * 10);
-
-        let next = p + bump;
-
-        while (panic && next > p && Math.random() < 0.1)
-          next -= Math.floor(Math.random() * 4);
-
-        next = Math.max(0, Math.min(next, 99));
-        return Math.round(next);
+        const jitter = Math.random() * cfg.step;
+        let next = prev + jitter * (0.65 + Math.random() * 0.45);
+        if (next > cap) next = cap;
+        if (next > cap - 0.35 && Math.random() < 0.5) {
+          next = cap - 0.15 - Math.random() * 0.5;
+        }
+        return next;
       });
-    }, 540 + jitter);
+    }, p.tickMs);
 
     return () => {
-      alive = false;
-      clearInterval(tick);
+      if (tickRef.current) window.clearInterval(tickRef.current);
     };
-  }, [animationLocked, panic, dramaticShift]);
+  }, [running, gaveUp, drama, p.tickMs]);
 
   useEffect(() => {
-    if (animationLocked) return undefined;
-
-    let alive = true;
-    const lineIntervalMs =
-      panic ? Math.max(1100 - dramaticShift * 12, 450) : 2700 + dramaticShift * 90;
-
-    const id = window.setInterval(() => {
-      if (!alive) return;
-      setMessageIndex((i) =>
-        panic ? i + Math.floor(Math.random() * 2) + 1 : i + 1,
-      );
-    }, lineIntervalMs);
-
+    if (!running || gaveUp) return undefined;
+    const cfg = DRAMA_PRESETS[drama];
+    msgTickRef.current = window.setInterval(() => {
+      setLineIdx((i) => (i + 1) % STATUS_LINES.length);
+    }, cfg.msgEveryMs);
     return () => {
-      alive = false;
-      clearInterval(id);
+      if (msgTickRef.current) window.clearInterval(msgTickRef.current);
     };
-  }, [animationLocked, panic, dramaticShift]);
+  }, [running, gaveUp, drama]);
 
   useEffect(() => {
-    if (animationLocked) return undefined;
-
-    let alive = true;
-    const interval = window.setInterval(() => {
-      if (!alive) return;
-      const snippet = randomLogLines(8, panic);
-      const idx = Math.min(
-        snippet.length - 1,
-        Math.floor(Math.random() * snippet.length),
-      );
-      const line = snippet[Math.max(0, idx)] ?? snippet[0];
-      if (!line) return;
-      const safe =
-        panic && Math.random() < 0.25
-          ? `${line}${Math.random() < 0.4 ? ` — ${panicLine()}` : ""}`
-          : line;
-      setLogs((prev) =>
-        [...prev, `[${nowStamp()}] ${safe}`].slice(-18),
-      );
-    }, 1700 + (dramaticShift % 700));
-
+    if (!running || gaveUp) return undefined;
+    etaRef.current = window.setInterval(() => setEta(randomEta()), 2100);
     return () => {
-      alive = false;
-      clearInterval(interval);
+      if (etaRef.current) window.clearInterval(etaRef.current);
     };
-  }, [animationLocked, panic, dramaticShift]);
+  }, [running, gaveUp]);
 
-  const resetAll = () => {
-    setRunning(false);
-    setProgress(0);
-    setLogs([]);
-    setFateTaken(false);
-    setDramaticShift(0);
-    setMessageIndex(0);
-  };
-
-  const begin = () => {
-    resetAll();
-    setRunning(true);
-    setLogs([
-      `[${nowStamp()}] Initialized unnecessary process`,
-      `[${nowStamp()}] Loaded ${loadingTypeLabels[flavor]} module`,
-      `[${nowStamp()}] Found 0 useful tasks`,
-    ]);
-  };
-
-  const moreDrama = () => setDramaticShift((x) => x + 2);
-
-  const acceptFate = () => setFateTaken(true);
-
-  const pct = Math.min(Math.round(progress), 99);
-  const atStuckGate = running && pct >= 99 && !fateTaken;
-
-  const panicLabelId = useId();
-
-  const flavorEntries = (
-    Object.entries(loadingTypeLabels) as [LoadingFlavor, string][]
-  ).map(([id, label]) => ({ id, label }));
+  const statusLine = useMemo(
+    () => STATUS_LINES[lineIdx % STATUS_LINES.length]!,
+    [lineIdx],
+  );
 
   return (
-    <div className="border-b border-zinc-200/60 bg-[#FAFAF8] py-12 sm:py-16 lg:py-20">
-      <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
-          Generate a loading screen that accomplishes absolutely nothing.
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-zinc-600">
-          Perfect for moments when you want to look busy, delay decisions, or emotionally
-          prepare for a progress bar that refuses to finish.
-        </p>
-      </div>
+    <div className="relative pb-20 pt-2 sm:pb-24">
+      <AppDetailHero
+        title="Fake Loading Screen Simulator"
+        subtitle="A loading bar with no ambition to complete."
+        decorations={
+          <>
+            <span className="absolute right-[5%] top-[6%] text-3xl motion-safe-wiggle">⏳</span>
+            <span className="absolute left-[8%] top-[20%] text-2xl motion-safe-float">📊</span>
+          </>
+        }
+      />
 
-      <div className="mx-auto mt-10 max-w-4xl px-4 sm:px-6 lg:px-8">
-        <article className="rounded-3xl border border-zinc-200 bg-gradient-to-b from-white to-zinc-50/70 p-6 shadow-xl shadow-zinc-900/[0.08] transition hover:-translate-y-0.5 hover:shadow-2xl sm:p-10">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-dashed border-zinc-100 pb-5">
-            <p className="text-sm font-semibold text-zinc-800">Loading controls</p>
-            <div className="flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3 py-2 text-[11px] font-semibold text-violet-900">
-              <span id={`${panicLabelId}-caption`}>Panic Mode</span>
-              <button
-                id={panicLabelId}
-                type="button"
-                role="switch"
-                aria-labelledby={`${panicLabelId}-caption`}
-                aria-checked={panic}
-                onClick={() => setPanic((v) => !v)}
-                className={`relative h-7 w-[46px] shrink-0 rounded-full transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500 ${panic ? "bg-violet-600" : "bg-zinc-200"}`}
-              >
-                <span
-                  className={`pointer-events-none absolute top-[4px] h-[21px] w-[21px] rounded-full bg-white shadow transition-all ${panic ? "left-[24px]" : "left-[3px]"}`}
-                />
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-6 flex flex-wrap gap-2">
-            {flavorEntries.map((t) => {
-              const on = flavor === t.id;
+      <div className="mx-auto mt-8 max-w-3xl space-y-8 px-4 sm:px-6 lg:px-8">
+        <CartoonCard variant="cream" hoverLift={false}>
+          <p
+            id={`${dramaGroupId}-label`}
+            className="font-display text-center text-sm font-bold uppercase tracking-wide text-text-muted"
+          >
+            Drama level
+          </p>
+          <div
+            className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-center"
+            role="radiogroup"
+            aria-labelledby={`${dramaGroupId}-label`}
+          >
+            {(Object.keys(DRAMA_PRESETS) as DramaLevel[]).map((key) => {
+              const on = drama === key;
               return (
                 <button
-                  key={t.id}
+                  key={key}
                   type="button"
-                  onClick={() => setFlavor(t.id)}
-                  aria-pressed={on}
-                  className={`rounded-full border px-3 py-2 text-xs font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500 sm:text-[13px] ${
+                  role="radio"
+                  aria-checked={on}
+                  disabled={running}
+                  onClick={() => setDrama(key)}
+                  className={`meeting-btn-bounce rounded-full border-[3px] border-ink px-5 py-2.5 font-display text-sm font-bold shadow-cartoon-sm transition disabled:opacity-50 ${
                     on
-                      ? "border-violet-300 bg-white text-zinc-900 shadow-md shadow-violet-500/15"
-                      : "border-transparent bg-[#fafafa]/80 text-zinc-600 hover:bg-white"
+                      ? "bg-blue-main text-text-main"
+                      : "bg-bg-main text-text-main hover:bg-pink-soft/60"
                   }`}
                 >
-                  {t.label}
+                  {DRAMA_PRESETS[key].label}
                 </button>
               );
             })}
           </div>
+          <p className="mt-3 text-center text-xs font-semibold text-text-muted">
+            Higher drama = faster mood swings and more emotional setbacks.
+          </p>
+        </CartoonCard>
 
-          <div className="relative mt-8 overflow-hidden rounded-2xl border border-zinc-200 bg-[#fafafa]/80 px-5 py-6 text-left shadow-inner">
-            <div className="relative z-10">
-              <div className="flex flex-wrap gap-2">
-                <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-800">
-                  System Status: pretending
-                </span>
-                <span className="rounded-full border border-rose-100 bg-white px-2.5 py-0.5 text-[11px] font-semibold text-rose-700">
-                  {panic ? "Alignment unstable (artistic)" : "Stakeholders calm enough"}
-                </span>
-              </div>
-
-              <p className="mt-6 min-h-[3rem] whitespace-pre-wrap text-lg font-semibold leading-snug text-zinc-800">
-                {displayLine}
-              </p>
-
-              <div className="mt-5">
-                <div className="flex items-center justify-between text-[11px] font-semibold uppercase tracking-wide text-zinc-400">
-                  <span>Progress</span>
-                  <span aria-live="polite">{pct}%</span>
-                </div>
-                <div className="relative mt-2 h-5 overflow-hidden rounded-full bg-white ring-1 ring-zinc-200">
-                  <div
-                    className={`h-full rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-amber-400 transition-[width] duration-[650ms]`}
-                    style={{ width: `${pct}%` }}
-                  />
-                  {panic ? (
-                    <div className="pointer-events-none absolute inset-0 animate-pulse rounded-full opacity-[0.48] shadow-[inset_0_-4px_rgba(244,114,182,0.45)] mix-blend-multiply"></div>
-                  ) : null}
-                </div>
-              </div>
-
-              {running && pct >= 99 && !fateTaken ? (
-                <p className="mt-6 text-lg font-semibold text-amber-800">
-                  Almost there… probably.
-                </p>
-              ) : null}
-              {running && fateTaken ? (
-                <p className="mt-6 text-lg font-semibold text-emerald-800">
-                  The loading screen has accepted you as its permanent user.
-                </p>
-              ) : null}
-
-              {!running ? (
-                <p className="mt-8 text-xs text-zinc-500">
-                  Whenever you crave futility — start below.
-                </p>
-              ) : null}
-            </div>
-          </div>
-
-          <dl className="mt-8 grid gap-4 rounded-2xl border border-zinc-100 bg-white p-6 text-sm sm:grid-cols-2 lg:grid-cols-4">
-            <Stat accent label="System Status" value="Pretending" />
-            <Stat label="Time Remaining" value="Calculating forever" />
-            <Stat label="Productivity Impact" value="Negative" />
-            <Stat
-              label="Stakeholder Confidence"
-              value={panic ? "Fragile choreography" : "Artificially high"}
-            />
-          </dl>
-
-          <div className="mt-8 rounded-2xl border border-dashed border-zinc-100 bg-black/[0.02] px-4 py-3 font-mono text-[11px] leading-relaxed text-zinc-600">
-            <p className="mb-3 text-[10px] font-semibold uppercase tracking-wide text-zinc-400">
-              Fake operational log
+        <CartoonCard variant="salmon" hoverLift={false} className="relative overflow-hidden">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <p
+              className="min-h-[3rem] flex-1 font-display text-lg font-bold leading-snug text-text-main sm:text-xl"
+              aria-live="polite"
+            >
+              {gaveUp
+                ? "You stopped the charade. Respect."
+                : setbackMsg ?? statusLine}
             </p>
-            <div aria-live="polite" role="log" className="max-h-48 space-y-1 overflow-y-auto pr-2">
-              {logs.length === 0 ? (
-                <p className="text-zinc-400">Quiet… too quiet.</p>
-              ) : (
-                logs.map((l, idx) => <p key={`${l}-${idx}`}>{l}</p>)
-              )}
-            </div>
+            <span className="font-display text-sm font-bold tabular-nums text-text-main">
+              {displayPct}%
+            </span>
           </div>
 
-          <ActionRow
-            running={running}
-            fateTaken={fateTaken}
-            atStuckGate={!!atStuckGate}
-            onStart={begin}
-            onAcceptFate={acceptFate}
-            onReset={resetAll}
-            onDrama={moreDrama}
-          />
-        </article>
+          <div
+            className="relative mt-5 h-10 overflow-hidden rounded-full border-[3px] border-ink bg-bg-main shadow-[inset_2px_2px_0_rgba(0,0,0,0.06)]"
+            role="progressbar"
+            aria-valuenow={displayPct}
+            aria-valuemin={0}
+            aria-valuemax={99}
+            aria-label="Fake loading progress"
+          >
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-blue-main via-pink-main to-tan transition-[width] duration-500 ease-out"
+              style={{ width: `${Math.min(100, displayPct)}%` }}
+            />
+          </div>
+
+          <div className="mt-6 flex flex-wrap justify-between gap-4 font-display text-sm font-bold text-text-main">
+            <span>Fake ETA: {eta}</span>
+            <span className="text-text-muted">Cap: never 100%</span>
+          </div>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={startLoading}
+              disabled={running && !gaveUp}
+              className="btn-cartoon rounded-full border-[3px] border-ink bg-blue-main px-6 py-3 font-display text-sm font-bold text-text-main shadow-cartoon disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Start Loading
+            </button>
+            <button
+              type="button"
+              onClick={reset}
+              className="rounded-full border-[3px] border-ink bg-bg-cream px-6 py-3 font-display text-sm font-bold text-text-main shadow-cartoon-sm hover:bg-pink-soft/50"
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              onClick={giveUp}
+              disabled={!running || gaveUp}
+              className="rounded-full border-[3px] border-ink bg-bg-main px-6 py-3 font-display text-sm font-bold text-text-main shadow-cartoon-sm hover:bg-tan/80 disabled:opacity-40"
+            >
+              Give Up
+            </button>
+          </div>
+        </CartoonCard>
+
+        {gaveUp ? (
+          <CartoonCard variant="blue" hoverLift={false}>
+            <p className="font-display text-center text-xl font-bold text-text-main sm:text-2xl">
+              Loading complete: emotionally, yes. Technically, no.
+            </p>
+            <p className="mt-4 text-center font-semibold text-text-muted">
+              You did the healthy thing and walked away from fake progress.
+            </p>
+          </CartoonCard>
+        ) : null}
       </div>
-    </div>
-  );
-}
-
-function Stat({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
-  return (
-    <div
-      className={`rounded-xl border px-4 py-3 ${
-        accent
-          ? "border-violet-200 bg-gradient-to-br from-white to-violet-50/50"
-          : "border-zinc-100 bg-[#fafafa]/80"
-      }`}
-    >
-      <dt className="text-[11px] font-semibold uppercase tracking-wide text-zinc-400">{label}</dt>
-      <dd className="mt-1 font-semibold text-zinc-900">{value}</dd>
-    </div>
-  );
-}
-
-function ActionRow({
-  running,
-  fateTaken,
-  atStuckGate,
-  onStart,
-  onAcceptFate,
-  onReset,
-  onDrama,
-}: {
-  running: boolean;
-  fateTaken: boolean;
-  atStuckGate: boolean;
-  onStart: () => void;
-  onAcceptFate: () => void;
-  onReset: () => void;
-  onDrama: () => void;
-}) {
-  if (!running) {
-    return (
-      <div className="mt-8 flex flex-wrap gap-3">
-        <button
-          type="button"
-          className="inline-flex rounded-full bg-zinc-900 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-zinc-900/20 transition hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
-          onClick={onStart}
-        >
-          Start Fake Loading
-        </button>
-        <button
-          type="button"
-          onClick={onReset}
-          className="rounded-full border border-zinc-200 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-600 shadow-sm transition hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
-        >
-          Reset
-        </button>
-      </div>
-    );
-  }
-
-  if (fateTaken) {
-    return (
-      <div className="mt-8 flex flex-wrap gap-3">
-        <button
-          type="button"
-          className="inline-flex rounded-full bg-zinc-900 px-6 py-2.5 text-sm font-semibold text-white shadow hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
-          onClick={onReset}
-        >
-          Restart futility loop
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="mt-8 flex flex-wrap gap-3">
-      <button
-        type="button"
-        aria-disabled={!atStuckGate}
-        disabled={!atStuckGate}
-        className={`inline-flex rounded-full border px-6 py-2.5 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500 ${
-          atStuckGate
-            ? "border-amber-200 bg-white text-amber-900 shadow-sm hover:border-amber-300"
-            : "cursor-not-allowed border-zinc-100 bg-zinc-50 text-zinc-400"
-        }`}
-        onClick={() => atStuckGate && onAcceptFate()}
-      >
-        Accept Your Fate
-      </button>
-      <button
-        type="button"
-        onClick={onDrama}
-        className="rounded-full border border-zinc-200 bg-white px-6 py-2.5 text-sm font-semibold text-zinc-800 shadow-sm hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
-      >
-        Make It More Dramatic
-      </button>
-      <button
-        type="button"
-        onClick={onReset}
-        className="rounded-full px-5 py-2.5 text-sm font-semibold text-zinc-600 underline-offset-4 hover:text-zinc-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
-      >
-        Reset
-      </button>
     </div>
   );
 }

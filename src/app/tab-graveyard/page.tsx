@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
 import { AppNavbar } from "@/components/apps/AppNavbar";
 import { AppFooter } from "@/components/apps/AppFooter";
-import { FakeLoadingScreenGenerator } from "@/components/apps/FakeLoadingScreenGenerator";
+import { TabGraveyard } from "@/components/apps/TabGraveyard";
 
 export const metadata: Metadata = {
-  title: "Fake Loading Screen Simulator",
-  description:
-    "A dramatic fake loading screen that never really finishes. Emotional damage as a service.",
+  title: "Tab Graveyard",
+  description: "A fake cemetery for tabs you definitely planned to read.",
 };
 
-export default function FakeLoadingScreenPage() {
+export default function TabGraveyardPage() {
   return (
     <div className="flex min-h-screen flex-col bg-bg-main">
       <AppNavbar />
       <main className="flex-1">
-        <FakeLoadingScreenGenerator />
+        <TabGraveyard />
       </main>
       <AppFooter />
     </div>

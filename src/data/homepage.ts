@@ -22,6 +22,8 @@ export interface ShowcaseApp {
   storefrontCard?: boolean;
   /** Replaces default “Live mini app” footer line when set */
   footerOverride?: string;
+  /** Pill CTA on live cards (e.g. Waste time) instead of default “open the silliness” */
+  showcaseCta?: string;
 }
 
 export const SHOP_CATEGORY_TABS: {
@@ -107,6 +109,40 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
     cardBg: "cream",
     categories: ["games", "pointless"],
     href: "/one-pixel-museum",
+  },
+  {
+    id: "trust-issues",
+    title: "Button With Trust Issues",
+    description: "A button that runs away when you try to click it.",
+    secondaryDescription: "Dude, pointless, and somehow personal.",
+    tag: "CHAOS",
+    cardBg: "blue",
+    categories: ["chaos", "pointless"],
+    href: "/button-with-trust-issues",
+    showcaseCta: "Waste time",
+  },
+  {
+    id: "tab-graveyard",
+    title: "Tab Graveyard",
+    description: "A fake cemetery for tabs you meant to read later.",
+    secondaryDescription: "Your browser already knows your shame.",
+    tag: "WEIRD",
+    cardBg: "softPink",
+    categories: ["pointless", "chaos"],
+    href: "/tab-graveyard",
+    showcaseCta: "Open app",
+  },
+  {
+    id: "fake-loading-simulator",
+    title: "Fake Loading Screen Simulator",
+    description:
+      "Shows a dramatic loading bar that never really finishes.",
+    secondaryDescription: "Emotional damage as a service.",
+    tag: "FAKE IT",
+    cardBg: "cream",
+    categories: ["fake-productivity", "chaos"],
+    href: "/fake-loading-screen-generator",
+    showcaseCta: "Waste time",
   },
 ];
 

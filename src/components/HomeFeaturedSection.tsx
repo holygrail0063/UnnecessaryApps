@@ -64,6 +64,12 @@ function ShowcaseCard({ app }: { app: ShowcaseApp }) {
       {app.href ? (
         app.footerOverride ? (
           <p className="mt-3 text-xs font-bold text-text-muted">{app.footerOverride}</p>
+        ) : app.showcaseCta ? (
+          <p className="mt-4 text-center">
+            <span className="inline-flex min-h-[44px] min-w-[120px] items-center justify-center rounded-full border-[3px] border-ink bg-blue-main px-5 py-2.5 font-display text-xs font-black uppercase tracking-wide text-text-main shadow-cartoon-sm">
+              {app.showcaseCta}
+            </span>
+          </p>
         ) : (
           <p className="mt-3 text-xs font-bold text-text-muted">
             Live mini app —{" "}
@@ -99,6 +105,9 @@ function appIcon(id: ShowcaseApp["id"]) {
     "bread-weather": "🍞",
     "pixel-museum": "🖼️",
     "bubble-wrap-busting": "🫧",
+    "trust-issues": "🏃",
+    "tab-graveyard": "🪦",
+    "fake-loading-simulator": "⏳",
   };
   return map[id] ?? "✨";
 }

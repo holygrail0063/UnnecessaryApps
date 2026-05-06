@@ -8,27 +8,6 @@ export interface ComingSoonIdea {
 
 export const COMING_SOON_IDEAS: ComingSoonIdea[] = [
   {
-    id: "trust-button",
-    title: "Button With Trust Issues",
-    description: "A button that runs away when you try to click it.",
-    whyUnnecessary: "Rude, pointless, and somehow personal.",
-    emoji: "🏃",
-  },
-  {
-    id: "tab-graveyard",
-    title: "Tab Graveyard",
-    description: "A fake cemetery for tabs you meant to read later.",
-    whyUnnecessary: "Your browser already knows your shame.",
-    emoji: "🪦",
-  },
-  {
-    id: "fake-loading-sim",
-    title: "Fake Loading Screen Simulator",
-    description: "Shows a dramatic loading bar that never really finishes.",
-    whyUnnecessary: "Emotional damage as a service.",
-    emoji: "⏳",
-  },
-  {
     id: "overthinker",
     title: "Professional Overthinker",
     description: "Generates 10 dramatic interpretations of a simple message.",
