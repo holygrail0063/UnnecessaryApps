@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CartoonCard } from "@/components/apps/CartoonCard";
@@ -9,7 +9,9 @@ import {
   FRIDAY_PASSPHRASE,
   FRIDAY_VAULT_SESSION_KEY,
   FRIDAY_VAULT_ENTRY_FLASH_KEY,
+  THURSDAY_CALENDAR_SESSION_KEY,
   getLocalWeekdayName,
+  isLocalThursday,
   isLocalFriday,
 } from "@/lib/fridayVault";
 
@@ -26,7 +28,9 @@ export function FridayVault() {
   const [phrase, setPhrase] = useState("");
   const [phraseError, setPhraseError] = useState(false);
   const [entryFlash, setEntryFlash] = useState(false);
-  const [friday, setFriday] = useState(false);
+  const [isFridayToday, setIsFridayToday] = useState(false);
+  const [isThursdayToday, setIsThursdayToday] = useState(false);
+  const [thursdayCalendarUnlocked, setThursdayCalendarUnlocked] = useState(false);
   const [traditionComplete, setTraditionComplete] = useState(false);
   const [bigPlayVisible, setBigPlayVisible] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -57,10 +61,30 @@ export function FridayVault() {
 
   useEffect(() => {
     if (gate !== "unlocked") return;
-    setFriday(isLocalFriday());
+    const now = new Date();
+    const fri = isLocalFriday(now);
+    const thu = isLocalThursday(now);
+    setIsFridayToday(fri);
+    setIsThursdayToday(thu);
+    if (thu) {
+      try {
+        setThursdayCalendarUnlocked(sessionStorage.getItem(THURSDAY_CALENDAR_SESSION_KEY) === "1");
+      } catch {
+        setThursdayCalendarUnlocked(false);
+      }
+    } else {
+      setThursdayCalendarUnlocked(false);
+    }
     setTraditionComplete(false);
     setBigPlayVisible(true);
   }, [gate]);
+
+  const showVideoExperience = useMemo(
+    () =>
+      gate === "unlocked" &&
+      (isFridayToday || (isThursdayToday && thursdayCalendarUnlocked)),
+    [gate, isFridayToday, isThursdayToday, thursdayCalendarUnlocked],
+  );
 
   const fireCelebration = useCallback(() => {
     if (confettiFiredRef.current) return;
@@ -78,10 +102,25 @@ export function FridayVault() {
   }, []);
 
   useEffect(() => {
-    if (gate === "unlocked" && friday) {
+    if (gate === "unlocked" && showVideoExperience) {
       fireCelebration();
     }
-  }, [gate, friday, fireCelebration]);
+  }, [gate, showVideoExperience, fireCelebration]);
+
+  const thursdayViaCalendar =
+    showVideoExperience && isThursdayToday && thursdayCalendarUnlocked && !isFridayToday;
+
+  const unlockThursdayCalendar = () => {
+    try {
+      sessionStorage.setItem(THURSDAY_CALENDAR_SESSION_KEY, "1");
+    } catch {
+      /* ignore */
+    }
+    setThursdayCalendarUnlocked(true);
+  };
+
+  const showThursdayCalendarFab =
+    gate === "unlocked" && isThursdayToday && !isFridayToday && !thursdayCalendarUnlocked;
 
   const submitPassphrase = (e: FormEvent) => {
     e.preventDefault();
@@ -140,7 +179,18 @@ export function FridayVault() {
           </div>
         ) : null}
 
-        <div className="mx-auto max-w-3xl px-4 pt-8 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-3xl px-4 pt-8 sm:px-6 lg:px-8">
+          {showThursdayCalendarFab ? (
+            <button
+              type="button"
+              onClick={unlockThursdayCalendar}
+              className="absolute right-1 top-2 z-20 flex size-11 items-center justify-center rounded-2xl border-[3px] border-ink bg-bg-cream text-2xl leading-none shadow-cartoon-sm transition-transform hover:-translate-y-0.5 active:translate-y-px motion-safe:active:scale-95 sm:right-3 sm:top-3 sm:size-[3.25rem] sm:text-[1.85rem]"
+              aria-label="Thursday calendar — unlock today’s vault"
+              title="It’s Thursday"
+            >
+              <span aria-hidden>📅</span>
+            </button>
+          ) : null}
           <div className="rounded-[32px] border-[4px] border-ink bg-blue-main/40 px-4 py-10 shadow-cartoon sm:px-8 sm:py-12">
             <h1 className="text-center font-display text-3xl font-black tracking-tight text-text-main sm:text-4xl">
               Friday Vault
@@ -185,7 +235,7 @@ export function FridayVault() {
             </CartoonCard>
           ) : null}
 
-          {gate === "unlocked" && !friday ? (
+          {gate === "unlocked" && !showVideoExperience ? (
             <CartoonCard variant="salmon" hoverLift={false} className="mx-auto mt-10">
               <h2 className="text-center font-display text-2xl font-black text-text-main sm:text-3xl">
                 Access Denied
@@ -210,13 +260,18 @@ export function FridayVault() {
             </CartoonCard>
           ) : null}
 
-          {gate === "unlocked" && friday ? (
+          {showVideoExperience ? (
             <div className="mt-10 space-y-8">
               <CartoonCard
                 variant="cream"
                 hoverLift={false}
                 className={`relative overflow-hidden ${traditionComplete ? "friday-vault-done-glow" : ""}`}
               >
+                {thursdayViaCalendar ? (
+                  <p className="mb-6 rounded-2xl border-[3px] border-ink bg-tan px-4 py-2.5 text-center font-display text-xs font-bold leading-snug text-text-main sm:text-sm">
+                    Thursday pass — the tiny calendar agreed. Honorary Friday energy unlocked.
+                  </p>
+                ) : null}
                 <h2 className="text-center font-display text-3xl font-black uppercase tracking-tight text-text-main sm:text-4xl">
                   FRIDAY DETECTED
                 </h2>
