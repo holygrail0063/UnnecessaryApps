@@ -31,7 +31,6 @@ export function FridayVault() {
   const [isFridayToday, setIsFridayToday] = useState(false);
   const [isThursdayToday, setIsThursdayToday] = useState(false);
   const [thursdayCalendarUnlocked, setThursdayCalendarUnlocked] = useState(false);
-  const [traditionComplete, setTraditionComplete] = useState(false);
   const [bigPlayVisible, setBigPlayVisible] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const confettiFiredRef = useRef(false);
@@ -75,7 +74,6 @@ export function FridayVault() {
     } else {
       setThursdayCalendarUnlocked(false);
     }
-    setTraditionComplete(false);
     setBigPlayVisible(true);
   }, [gate]);
 
@@ -152,7 +150,6 @@ export function FridayVault() {
   const replay = async () => {
     const v = videoRef.current;
     if (!v) return;
-    setTraditionComplete(false);
     v.pause();
     v.currentTime = 0;
     v.muted = false;
@@ -262,11 +259,7 @@ export function FridayVault() {
 
           {showVideoExperience ? (
             <div className="mt-10 space-y-8">
-              <CartoonCard
-                variant="cream"
-                hoverLift={false}
-                className={`relative overflow-hidden ${traditionComplete ? "friday-vault-done-glow" : ""}`}
-              >
+              <CartoonCard variant="cream" hoverLift={false} className="relative overflow-hidden">
                 {thursdayViaCalendar ? (
                   <p className="mb-6 rounded-2xl border-[3px] border-ink bg-tan px-4 py-2.5 text-center font-display text-xs font-bold leading-snug text-text-main sm:text-sm">
                     Thursday pass — the tiny calendar agreed. Honorary Friday energy unlocked.
@@ -292,7 +285,6 @@ export function FridayVault() {
                       playsInline
                       preload="metadata"
                       onPlay={() => setBigPlayVisible(false)}
-                      onEnded={() => setTraditionComplete(true)}
                     >
                       <source src={FRIDAY_VIDEO_SRC} type="video/mp4" />
                     </video>
@@ -329,32 +321,6 @@ export function FridayVault() {
                   </Link>
                 </div>
               </CartoonCard>
-
-              {traditionComplete ? (
-                <CartoonCard variant="blue" hoverLift={false} className="friday-vault-done-glow border-[4px]">
-                  <p className="text-center font-display text-2xl font-black text-text-main sm:text-3xl">
-                    Tradition successfully maintained.
-                  </p>
-                  <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                    {[
-                      { label: "Calendar Compliance", value: "100%" },
-                      { label: "Friday Energy", value: "Dangerous" },
-                      { label: "Productivity Remaining", value: "0%" },
-                      { label: "Tradition Streak", value: "4+ Years" },
-                    ].map((row) => (
-                      <div
-                        key={row.label}
-                        className="rounded-2xl border-[3px] border-ink bg-bg-cream px-4 py-3 text-center shadow-cartoon-sm"
-                      >
-                        <p className="font-display text-xs font-bold uppercase tracking-wide text-text-muted">
-                          {row.label}
-                        </p>
-                        <p className="mt-1 font-display text-lg font-black text-text-main">{row.value}</p>
-                      </div>
-                    ))}
-                  </div>
-                </CartoonCard>
-              ) : null}
             </div>
           ) : null}
         </div>
