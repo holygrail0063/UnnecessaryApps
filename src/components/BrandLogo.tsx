@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import type { MouseEvent } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useRef, type MouseEvent } from "react";
 import type { StaticImageData } from "next/image";
 import logo from "@/assets/brand/logo.png";
+import { FRIDAY_VAULT_ENTRY_FLASH_KEY } from "@/lib/fridayVault";
 
 /**
  * Single brand mark from `src/assets/brand/logo.png` (copy of `public/logo.png`).
@@ -32,15 +34,48 @@ function BrandImg({
   );
 }
 
+const FRIDAY_EGG_WINDOW_MS = 4000;
+const FRIDAY_EGG_CLICKS = 5;
+
 export function BrandLogoHeader({
   onNavigate,
 }: {
   onNavigate?: (e: MouseEvent<HTMLAnchorElement>) => void;
 }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const eggWindowStartRef = useRef<number | null>(null);
+  const eggClickCountRef = useRef(0);
+
+  const handleLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (pathname === "/") {
+      const now = Date.now();
+      if (eggWindowStartRef.current === null || now - eggWindowStartRef.current > FRIDAY_EGG_WINDOW_MS) {
+        eggWindowStartRef.current = now;
+        eggClickCountRef.current = 1;
+      } else {
+        eggClickCountRef.current += 1;
+      }
+      if (eggClickCountRef.current >= FRIDAY_EGG_CLICKS) {
+        e.preventDefault();
+        eggWindowStartRef.current = null;
+        eggClickCountRef.current = 0;
+        try {
+          sessionStorage.setItem(FRIDAY_VAULT_ENTRY_FLASH_KEY, "1");
+        } catch {
+          /* ignore */
+        }
+        router.push("/friday-vault");
+        return;
+      }
+    }
+    onNavigate?.(e);
+  };
+
   return (
     <Link
       href="/"
-      onClick={onNavigate}
+      onClick={handleLogoClick}
       aria-label="Unnecessary Apps home"
       className="group flex min-w-0 shrink-0 items-center gap-2 rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-out motion-safe:hover:scale-[1.04] motion-safe:active:scale-[0.98] sm:gap-3"
     >

@@ -581,6 +581,29 @@ html {
   }
 }
 
+/* Friday Vault easter egg — completion pulse */
+@keyframes friday-vault-glow-pulse {
+  0%,
+  100% {
+    box-shadow: var(--shadow-cartoon);
+  }
+  50% {
+    box-shadow:
+      8px 8px 0 var(--border-ink),
+      0 0 0 6px rgba(39, 181, 232, 0.42);
+  }
+}
+
+.friday-vault-done-glow {
+  animation: friday-vault-glow-pulse 1.35s ease-in-out 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .friday-vault-done-glow {
+    animation: none;
+  }
+}
+
 body {
   background: var(--bg-main);
   color: var(--text-main);
