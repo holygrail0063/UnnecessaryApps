@@ -275,10 +275,7 @@ export function FridayVault() {
                 <h2 className="text-center font-display text-3xl font-black uppercase tracking-tight text-text-main sm:text-4xl">
                   FRIDAY DETECTED
                 </h2>
-                <p className="mx-auto mt-4 max-w-xl text-center font-display text-lg font-bold text-text-muted">
-                  Four years. Zero missed Fridays. Extremely questionable dedication.
-                </p>
-                <p className="mt-2 text-center font-display text-sm font-bold text-text-main">
+                <p className="mt-4 text-center font-display text-sm font-bold text-text-main">
                   The tradition continues.
                 </p>
 
@@ -291,6 +288,7 @@ export function FridayVault() {
                       ref={videoRef}
                       className="aspect-video w-full rounded-2xl bg-black object-contain"
                       controls
+                      controlsList="nodownload"
                       playsInline
                       preload="metadata"
                       onPlay={() => setBigPlayVisible(false)}
