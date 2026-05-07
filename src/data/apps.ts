@@ -30,7 +30,7 @@ export const LIVE_APP_ROUTES = [
   "/meeting-excuse-generator",
   "/button-with-trust-issues",
   "/professional-overthinker",
-  "/digital-rock-collection",
+  "/rock-sweeper",
   "/microwave-countdown-drama",
 ] as const;
 
@@ -184,12 +184,12 @@ export const apps: App[] = [
     route: "/professional-overthinker",
   },
   {
-    id: "digital-rock-collection",
-    name: "Digital Rock Collection",
+    id: "rock-sweeper",
+    name: "Rock Sweeper",
     shortDescription:
-      "Collect fake rocks with fake names and fake personalities.",
+      "Dig through suspicious dirt tiles to find one emotionally average rock.",
     status: "live",
-    route: "/digital-rock-collection",
+    route: "/rock-sweeper",
   },
   {
     id: "microwave-countdown-drama",

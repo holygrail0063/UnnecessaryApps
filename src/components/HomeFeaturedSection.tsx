@@ -107,7 +107,7 @@ function appIcon(id: ShowcaseApp["id"]) {
     "bubble-wrap-busting": "🫧",
     "trust-issues": "🏃",
     "professional-overthinker": "🌀",
-    "digital-rock-collection": "🪨",
+    "rock-sweeper": "⛏️",
     "microwave-countdown-drama": "🍿",
     "fake-loading-simulator": "⏳",
   };

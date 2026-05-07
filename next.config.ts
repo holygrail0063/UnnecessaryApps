@@ -1,7 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return [
+      {
+        source: "/digital-rock-collection",
+        destination: "/rock-sweeper",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

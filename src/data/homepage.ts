@@ -133,16 +133,16 @@ export const SHOWCASE_APPS: ShowcaseApp[] = [
     showcaseCta: "OVERTHINK THIS",
   },
   {
-    id: "digital-rock-collection",
-    title: "Digital Rock Collection",
+    id: "rock-sweeper",
+    title: "Rock Sweeper",
     description:
-      "Lets users collect fake rocks with fake names and fake personalities.",
-    secondaryDescription: "Nature, but worse.",
-    tag: "COLLECT",
+      "Dig through suspicious dirt tiles to find one emotionally average rock.",
+    secondaryDescription: "Archaeology did not need a downgrade.",
+    tag: "DIG",
     cardBg: "tan",
     categories: ["games", "pointless"],
-    href: "/digital-rock-collection",
-    showcaseCta: "COLLECT ROCKS",
+    href: "/rock-sweeper",
+    showcaseCta: "START DIGGING",
   },
   {
     id: "microwave-countdown-drama",

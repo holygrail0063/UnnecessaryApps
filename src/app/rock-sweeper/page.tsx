@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
 import { AppNavbar } from "@/components/apps/AppNavbar";
 import { AppFooter } from "@/components/apps/AppFooter";
-import { DigitalRockCollection } from "@/components/apps/DigitalRockCollection";
+import { RockSweeper } from "@/components/apps/RockSweeper";
 
 export const metadata: Metadata = {
-  title: "Digital Rock Collection",
+  title: "Rock Sweeper",
   description:
-    "Collect fake rocks with fake names and fake personalities. Nature, but worse.",
+    "Dig through suspicious dirt tiles to find one emotionally average rock. Archaeology did not need a downgrade.",
 };
 
-export default function DigitalRockCollectionPage() {
+export default function RockSweeperPage() {
   return (
     <div className="flex min-h-screen flex-col bg-bg-main">
       <AppNavbar />
       <main className="flex-1">
-        <DigitalRockCollection />
+        <RockSweeper />
       </main>
       <AppFooter />
     </div>
