@@ -29,7 +29,9 @@ export const LIVE_APP_ROUTES = [
   "/bubble-wrap-busting",
   "/meeting-excuse-generator",
   "/button-with-trust-issues",
-  "/tab-graveyard",
+  "/professional-overthinker",
+  "/digital-rock-collection",
+  "/microwave-countdown-drama",
 ] as const;
 
 export const apps: App[] = [
@@ -133,12 +135,6 @@ export const apps: App[] = [
     status: "coming-soon",
   },
   {
-    id: "overthinking-machine",
-    name: "The Overthinking Machine",
-    shortDescription: "Takes a simple thought and makes it dramatically worse.",
-    status: "coming-soon",
-  },
-  {
     id: "microwave-beep-translator",
     name: "Microwave Beep Translator",
     shortDescription: "Finally understand what those beeps actually mean.",
@@ -180,12 +176,28 @@ export const apps: App[] = [
     route: "/button-with-trust-issues",
   },
   {
-    id: "tab-graveyard-app",
-    name: "Tab Graveyard",
+    id: "professional-overthinker",
+    name: "Professional Overthinker",
     shortDescription:
-      "A fake cemetery for browser tabs you definitely planned to read.",
+      "Generates 10 dramatic interpretations of a simple message.",
     status: "live",
-    route: "/tab-graveyard",
+    route: "/professional-overthinker",
+  },
+  {
+    id: "digital-rock-collection",
+    name: "Digital Rock Collection",
+    shortDescription:
+      "Collect fake rocks with fake names and fake personalities.",
+    status: "live",
+    route: "/digital-rock-collection",
+  },
+  {
+    id: "microwave-countdown-drama",
+    name: "Microwave Countdown Drama",
+    shortDescription:
+      "Turns a short timer into a cinematic countdown event.",
+    status: "live",
+    route: "/microwave-countdown-drama",
   },
 ];
 

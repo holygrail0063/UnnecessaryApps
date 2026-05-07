@@ -8,13 +8,6 @@ export interface ComingSoonIdea {
 
 export const COMING_SOON_IDEAS: ComingSoonIdea[] = [
   {
-    id: "overthinker",
-    title: "Professional Overthinker",
-    description: "Generates 10 dramatic interpretations of a simple message.",
-    whyUnnecessary: "Anxiety did not need automation.",
-    emoji: "🌀",
-  },
-  {
     id: "tiny-achievements",
     title: "Tiny Achievement Unlocker",
     description:
@@ -35,20 +28,6 @@ export const COMING_SOON_IDEAS: ComingSoonIdea[] = [
     description: "Checks if your cursor is emotionally stable.",
     whyUnnecessary: "It is literally just a cursor.",
     emoji: "🖱️",
-  },
-  {
-    id: "rock-collection",
-    title: "Digital Rock Collection",
-    description: "Lets users collect fake rocks with fake names and fake personalities.",
-    whyUnnecessary: "Nature, but worse.",
-    emoji: "🪨",
-  },
-  {
-    id: "microwave-drama",
-    title: "Microwave Countdown Drama",
-    description: "Turns a short timer into a cinematic countdown event.",
-    whyUnnecessary: "Your leftovers do not need suspense.",
-    emoji: "🍿",
   },
   {
     id: "confetti-cannon",

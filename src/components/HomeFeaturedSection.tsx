@@ -106,7 +106,9 @@ function appIcon(id: ShowcaseApp["id"]) {
     "pixel-museum": "🖼️",
     "bubble-wrap-busting": "🫧",
     "trust-issues": "🏃",
-    "tab-graveyard": "🪦",
+    "professional-overthinker": "🌀",
+    "digital-rock-collection": "🪨",
+    "microwave-countdown-drama": "🍿",
     "fake-loading-simulator": "⏳",
   };
   return map[id] ?? "✨";

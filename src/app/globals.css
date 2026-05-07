@@ -321,6 +321,64 @@ html {
   }
 }
 
+/* Microwave Countdown Drama — visual “beep” burst */
+@keyframes microwave-beep-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  25% {
+    transform: scale(1.04);
+    filter: brightness(1.08);
+  }
+  50% {
+    transform: scale(1.02);
+    filter: brightness(1.12);
+  }
+}
+
+.microwave-beep-active {
+  animation: microwave-beep-pulse 0.55s ease-in-out 4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .microwave-beep-active {
+    animation: none;
+  }
+}
+
+@keyframes microwave-energy-shift {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+.microwave-energy-snack {
+  animation: microwave-energy-shift 4s ease-in-out infinite;
+}
+
+.microwave-energy-dinner {
+  animation: microwave-energy-shift 2.8s ease-in-out infinite;
+}
+
+.microwave-energy-apocalypse {
+  animation: microwave-energy-shift 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .microwave-energy-snack,
+  .microwave-energy-dinner,
+  .microwave-energy-apocalypse {
+    animation: none;
+    opacity: 0.75;
+  }
+}
+
 body {
   background: var(--bg-main);
   color: var(--text-main);
