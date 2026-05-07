@@ -444,6 +444,143 @@ html {
   }
 }
 
+/* Microwave Countdown Drama — cartoon oven + plate */
+@keyframes microwave-plate-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes microwave-chamber-glow {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.92;
+  }
+}
+
+@keyframes microwave-steam-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.85);
+  }
+  40% {
+    opacity: 0.65;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-28px) scale(1.05);
+  }
+}
+
+@keyframes microwave-body-hum {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes microwave-done-pulse {
+  0%,
+  100% {
+    box-shadow: var(--shadow-cartoon);
+    transform: scale(1);
+  }
+  45% {
+    box-shadow: 8px 8px 0 var(--border-ink), 0 0 0 6px rgba(249, 163, 168, 0.55);
+    transform: scale(1.02);
+  }
+}
+
+.microwave-cartoon-frame {
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.microwave-cartoon-frame--heating {
+  animation: microwave-body-hum 2.4s ease-in-out infinite;
+}
+
+.microwave-window-inner-glow {
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 55%,
+    rgba(255, 248, 234, 0.95) 0%,
+    rgba(39, 181, 232, 0.35) 45%,
+    rgba(23, 23, 23, 0.12) 100%
+  );
+}
+
+.microwave-window-inner-glow--active {
+  animation: microwave-chamber-glow 1.8s ease-in-out infinite;
+}
+
+.microwave-plate-disk {
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 9999px;
+  border: 3px solid var(--border-ink);
+  background: var(--bg-cream);
+  box-shadow: var(--shadow-cartoon-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.microwave-plate-wrap--spin .microwave-plate-disk {
+  animation: microwave-plate-spin 3.2s linear infinite;
+}
+
+.microwave-plate-wrap--paused .microwave-plate-disk {
+  animation-play-state: paused;
+}
+
+.microwave-steam-puff {
+  position: absolute;
+  left: 50%;
+  bottom: 28%;
+  margin-left: -1rem;
+  width: 2rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.75), transparent 70%);
+  animation: microwave-steam-rise 2.1s ease-out infinite;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.microwave-steam-puff--b {
+  animation-delay: 0.7s;
+  margin-left: 0.5rem;
+}
+
+.microwave-done-screen-flash {
+  animation: microwave-done-pulse 0.85s ease-in-out 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .microwave-cartoon-frame--heating,
+  .microwave-window-inner-glow--active,
+  .microwave-steam-puff,
+  .microwave-plate-wrap--spin .microwave-plate-disk,
+  .microwave-done-screen-flash {
+    animation: none !important;
+  }
+
+  .microwave-plate-wrap--spin .microwave-plate-disk {
+    transform: rotate(25deg);
+  }
+}
+
 body {
   background: var(--bg-main);
   color: var(--text-main);

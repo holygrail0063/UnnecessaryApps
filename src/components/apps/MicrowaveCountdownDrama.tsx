@@ -3,6 +3,12 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { AppDetailHero } from "@/components/apps/AppDetailHero";
 import { CartoonCard } from "@/components/apps/CartoonCard";
+import {
+  isMicrowaveSoundMuted,
+  playButtonBeep,
+  playFinishBeeps,
+  setMicrowaveSoundMuted,
+} from "@/lib/microwaveSounds";
 
 type DramaLevel = "snack" | "dinner" | "apocalypse";
 
@@ -61,6 +67,61 @@ function clampMins(m: number) {
   return Math.min(99, Math.max(0, Math.floor(m)));
 }
 
+function MicrowaveCartoon({
+  phase,
+  finishFanfare,
+}: {
+  phase: Phase;
+  finishFanfare: boolean;
+}) {
+  const spinActive = phase === "running" || phase === "paused";
+  const heating = phase === "running";
+  const paused = phase === "paused";
+
+  return (
+    <div
+      className={[
+        "microwave-cartoon-frame relative mx-auto mb-6 max-w-[min(100%,300px)] rounded-[26px] border-[4px] border-ink bg-bg-cream p-3 shadow-cartoon sm:mb-8 sm:p-4",
+        heating ? "microwave-cartoon-frame--heating" : "",
+        finishFanfare ? "microwave-done-screen-flash" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      aria-hidden
+    >
+      <p className="text-center font-display text-[10px] font-black uppercase tracking-[0.12em] text-text-muted sm:text-xs">
+        Drama oven
+      </p>
+      <div className="relative mt-2 aspect-[4/3] w-full overflow-hidden rounded-[18px] border-[3px] border-ink bg-[linear-gradient(155deg,rgba(39,181,232,0.42),rgba(255,248,234,0.92))] shadow-[inset_0_2px_0_rgba(255,255,255,0.35)]">
+        <div
+          className={`microwave-window-inner-glow absolute inset-0 ${heating ? "microwave-window-inner-glow--active" : ""}`}
+        />
+        {heating ? (
+          <>
+            <div className="microwave-steam-puff" />
+            <div className="microwave-steam-puff microwave-steam-puff--b" />
+          </>
+        ) : null}
+        <div className="relative flex h-full w-full items-center justify-center pb-1 pt-1">
+          <div
+            className={[
+              "microwave-plate-wrap flex flex-col items-center justify-center",
+              spinActive ? "microwave-plate-wrap--spin" : "",
+              paused ? "microwave-plate-wrap--paused" : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+          >
+            <div className="microwave-plate-disk select-none text-3xl leading-none sm:text-4xl">
+              🍲
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function MicrowaveCountdownDrama() {
   const groupId = useId();
   const [mins, setMins] = useState(0);
@@ -71,18 +132,25 @@ export function MicrowaveCountdownDrama() {
   const [total, setTotal] = useState(0);
   const [lineIdx, setLineIdx] = useState(0);
   const [silly, setSilly] = useState<string | null>(null);
-  const [beep, setBeep] = useState(false);
+  const [finishFanfare, setFinishFanfare] = useState(false);
+  const [soundMuted, setSoundMuted] = useState(false);
 
   /** Browser timer ids — explicit `number` avoids NodeJS.Timeout vs DOM mismatch in TS. */
   const tickRef = useRef<number | null>(null);
   const msgRef = useRef<number | null>(null);
   const sillyRef = useRef<number | null>(null);
   const activeRef = useRef(false);
+  const prevRemRef = useRef(remaining);
+  const fanfareTimeoutRef = useRef<number | null>(null);
 
   const lines = MAIN_LINES[drama];
 
   const rotateMs =
     drama === "snack" ? 5200 : drama === "dinner" ? 3800 : 2600;
+
+  useEffect(() => {
+    setSoundMuted(isMicrowaveSoundMuted());
+  }, []);
 
   const clearTimers = useCallback(() => {
     if (tickRef.current) clearInterval(tickRef.current);
@@ -102,6 +170,22 @@ export function MicrowaveCountdownDrama() {
   }, []);
 
   useEffect(() => () => clearTimers(), [clearTimers]);
+
+  useEffect(
+    () => () => {
+      if (fanfareTimeoutRef.current != null) {
+        window.clearTimeout(fanfareTimeoutRef.current);
+      }
+    },
+    [],
+  );
+
+  const clearFanfareTimeout = useCallback(() => {
+    if (fanfareTimeoutRef.current != null) {
+      window.clearTimeout(fanfareTimeoutRef.current);
+      fanfareTimeoutRef.current = null;
+    }
+  }, []);
 
   const scheduleSillyChain = useCallback(() => {
     const delay =
@@ -137,19 +221,33 @@ export function MicrowaveCountdownDrama() {
     }, 1000);
   }, []);
 
+  /** One completion fire when countdown crosses 1 → 0 while running (no Strict Mode double-beep). */
   useEffect(() => {
-    if (remaining !== 0 || phase !== "running") return undefined;
-    activeRef.current = false;
-    clearTimers();
-    setPhase("done");
-    setBeep(true);
-    const id = window.setTimeout(() => setBeep(false), 2800);
-    return () => clearTimeout(id);
-  }, [remaining, phase, clearTimers]);
+    if (phase !== "running") {
+      prevRemRef.current = remaining;
+      return;
+    }
+    const prev = prevRemRef.current;
+    if (prev === 1 && remaining === 0) {
+      activeRef.current = false;
+      clearTimers();
+      setPhase("done");
+      setFinishFanfare(true);
+      playFinishBeeps();
+      clearFanfareTimeout();
+      fanfareTimeoutRef.current = window.setTimeout(() => {
+        setFinishFanfare(false);
+        fanfareTimeoutRef.current = null;
+      }, 2800);
+    }
+    prevRemRef.current = remaining;
+  }, [remaining, phase, clearTimers, clearFanfareTimeout]);
 
   const startDrama = () => {
+    playButtonBeep();
     activeRef.current = true;
     clearTimers();
+    clearFanfareTimeout();
     let t = clampMins(mins) * 60 + clampSecs(secs);
     if (t < 1) t = 1;
     setTotal(t);
@@ -157,13 +255,14 @@ export function MicrowaveCountdownDrama() {
     setPhase("running");
     setLineIdx(0);
     setSilly(null);
-    setBeep(false);
+    setFinishFanfare(false);
     beginTick();
     startIntervalsForRun();
   };
 
   const pause = () => {
     if (phase !== "running") return;
+    playButtonBeep();
     activeRef.current = false;
     clearTimers();
     setPhase("paused");
@@ -171,6 +270,7 @@ export function MicrowaveCountdownDrama() {
 
   const resume = () => {
     if (phase !== "paused" || remaining < 1) return;
+    playButtonBeep();
     activeRef.current = true;
     setPhase("running");
     beginTick();
@@ -178,13 +278,28 @@ export function MicrowaveCountdownDrama() {
   };
 
   const reset = () => {
+    playButtonBeep();
     activeRef.current = false;
     clearTimers();
+    clearFanfareTimeout();
     setPhase("idle");
     setRemaining(0);
     setTotal(0);
     setSilly(null);
-    setBeep(false);
+    setFinishFanfare(false);
+  };
+
+  const toggleSound = () => {
+    const next = !soundMuted;
+    if (next) {
+      playButtonBeep();
+      setMicrowaveSoundMuted(true);
+      setSoundMuted(true);
+    } else {
+      setMicrowaveSoundMuted(false);
+      setSoundMuted(false);
+      playButtonBeep();
+    }
   };
 
   const display = useMemo(() => {
@@ -207,6 +322,11 @@ export function MicrowaveCountdownDrama() {
       : drama === "dinner"
         ? "microwave-energy-dinner"
         : "microwave-energy-apocalypse";
+
+  const salmonFanfareClass =
+    finishFanfare && phase === "done"
+      ? "microwave-beep-active ring-4 ring-pink-main shadow-[8px_8px_0_var(--border-ink)]"
+      : "";
 
   return (
     <div
@@ -251,9 +371,12 @@ export function MicrowaveCountdownDrama() {
                 type="button"
                 role="radio"
                 aria-checked={drama === opt.id}
-                disabled={phase === "running"}
-                onClick={() => setDrama(opt.id)}
-                className={`rounded-full border-[3px] border-ink px-5 py-2.5 font-display text-sm font-bold shadow-cartoon-sm disabled:opacity-50 ${
+                disabled={phase === "running" || phase === "paused"}
+                onClick={() => {
+                  playButtonBeep();
+                  setDrama(opt.id);
+                }}
+                className={`rounded-full border-[3px] border-ink px-5 py-2.5 font-display text-sm font-bold shadow-cartoon-sm transition-transform active:translate-y-px active:shadow-cartoon-sm disabled:opacity-50 ${
                   drama === opt.id
                     ? "bg-pink-main text-text-main"
                     : "bg-bg-main text-text-main hover:bg-pink-soft/50"
@@ -268,8 +391,25 @@ export function MicrowaveCountdownDrama() {
         <CartoonCard
           variant="salmon"
           hoverLift={false}
-          className={`relative overflow-hidden ${beep ? "microwave-beep-active ring-4 ring-pink-main" : ""}`}
+          className={`relative overflow-hidden transition-shadow duration-300 ${salmonFanfareClass}`}
         >
+          <div className="mb-2 flex items-center justify-end gap-2">
+            <span className="font-display text-xs font-bold uppercase text-text-muted" aria-hidden>
+              {soundMuted ? "🔇" : "🔊"}
+            </span>
+            <button
+              type="button"
+              onClick={toggleSound}
+              className="rounded-full border-[3px] border-ink bg-bg-main px-3 py-1.5 font-display text-xs font-bold uppercase tracking-wide text-text-main shadow-cartoon-sm transition-transform active:translate-y-px"
+              aria-pressed={soundMuted}
+              aria-label={soundMuted ? "Unmute microwave sounds" : "Mute microwave sounds"}
+            >
+              {soundMuted ? "Sound off" : "Sound on"}
+            </button>
+          </div>
+
+          <MicrowaveCartoon phase={phase} finishFanfare={finishFanfare} />
+
           {phase === "running" || phase === "paused" ? (
             <>
               <p
@@ -312,34 +452,51 @@ export function MicrowaveCountdownDrama() {
               </div>
             </>
           ) : (
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label className="font-display text-xs font-bold uppercase text-text-muted">
-                  Minutes
-                </label>
-                <input
-                  type="number"
-                  min={0}
-                  max={99}
-                  value={mins}
-                  onChange={(e) => setMins(clampMins(Number(e.target.value)))}
-                  className="mt-2 w-full rounded-2xl border-[3px] border-ink bg-bg-main px-4 py-3 font-display text-2xl font-bold shadow-cartoon-sm"
-                />
+            <>
+              {phase === "done" ? (
+                <div className="mb-6 flex flex-col items-center gap-3">
+                  <p
+                    className="font-display text-6xl font-black tabular-nums tracking-tight text-text-main sm:text-7xl"
+                    aria-live="polite"
+                  >
+                    00:00
+                  </p>
+                  {finishFanfare ? (
+                    <span className="rounded-full border-[3px] border-ink bg-pink-main px-5 py-1.5 font-display text-sm font-black uppercase tracking-wide text-text-main shadow-cartoon-sm motion-safe:animate-bounce">
+                      Done
+                    </span>
+                  ) : null}
+                </div>
+              ) : null}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="font-display text-xs font-bold uppercase text-text-muted">
+                    Minutes
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={99}
+                    value={mins}
+                    onChange={(e) => setMins(clampMins(Number(e.target.value)))}
+                    className="mt-2 w-full rounded-2xl border-[3px] border-ink bg-bg-main px-4 py-3 font-display text-2xl font-bold shadow-cartoon-sm"
+                  />
+                </div>
+                <div>
+                  <label className="font-display text-xs font-bold uppercase text-text-muted">
+                    Seconds
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={59}
+                    value={secs}
+                    onChange={(e) => setSecs(clampSecs(Number(e.target.value)))}
+                    className="mt-2 w-full rounded-2xl border-[3px] border-ink bg-bg-main px-4 py-3 font-display text-2xl font-bold shadow-cartoon-sm"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="font-display text-xs font-bold uppercase text-text-muted">
-                  Seconds
-                </label>
-                <input
-                  type="number"
-                  min={0}
-                  max={59}
-                  value={secs}
-                  onChange={(e) => setSecs(clampSecs(Number(e.target.value)))}
-                  className="mt-2 w-full rounded-2xl border-[3px] border-ink bg-bg-main px-4 py-3 font-display text-2xl font-bold shadow-cartoon-sm"
-                />
-              </div>
-            </div>
+            </>
           )}
         </CartoonCard>
 
@@ -348,7 +505,7 @@ export function MicrowaveCountdownDrama() {
             <button
               type="button"
               onClick={startDrama}
-              className="btn-cartoon rounded-full border-[3px] border-ink bg-blue-main px-8 py-3 font-display text-base font-bold text-text-main shadow-cartoon"
+              className="btn-cartoon rounded-full border-[3px] border-ink bg-blue-main px-8 py-3 font-display text-base font-bold text-text-main shadow-cartoon transition-transform active:translate-y-px"
             >
               Start Drama
             </button>
@@ -357,7 +514,7 @@ export function MicrowaveCountdownDrama() {
             <button
               type="button"
               onClick={pause}
-              className="rounded-full border-[3px] border-ink bg-bg-cream px-6 py-3 font-display text-sm font-bold shadow-cartoon-sm"
+              className="rounded-full border-[3px] border-ink bg-bg-cream px-6 py-3 font-display text-sm font-bold shadow-cartoon-sm transition-transform active:translate-y-px"
             >
               Pause
             </button>
@@ -366,7 +523,7 @@ export function MicrowaveCountdownDrama() {
             <button
               type="button"
               onClick={resume}
-              className="rounded-full border-[3px] border-ink bg-pink-main px-6 py-3 font-display text-sm font-bold shadow-cartoon-sm"
+              className="rounded-full border-[3px] border-ink bg-pink-main px-6 py-3 font-display text-sm font-bold shadow-cartoon-sm transition-transform active:translate-y-px"
             >
               Resume
             </button>
@@ -375,7 +532,7 @@ export function MicrowaveCountdownDrama() {
             <button
               type="button"
               onClick={reset}
-              className="rounded-full border-[3px] border-ink bg-bg-main px-6 py-3 font-display text-sm font-bold text-text-muted hover:text-text-main"
+              className="rounded-full border-[3px] border-ink bg-bg-main px-6 py-3 font-display text-sm font-bold text-text-muted transition-transform hover:text-text-main active:translate-y-px"
             >
               Reset
             </button>
@@ -383,8 +540,12 @@ export function MicrowaveCountdownDrama() {
         </div>
 
         {phase === "done" ? (
-          <CartoonCard variant="blue" hoverLift={false}>
-            <p className="font-display text-center text-xl font-bold text-text-main sm:text-2xl">
+          <CartoonCard
+            variant="blue"
+            hoverLift={false}
+            className={`relative overflow-hidden ${finishFanfare ? "microwave-beep-active ring-4 ring-bg-cream/90" : ""}`}
+          >
+            <p className="font-display text-center text-xl font-bold leading-snug text-text-main sm:text-2xl">
               It is done. Your food has survived the cinematic universe.
             </p>
             <p className="mt-6 text-center font-display text-lg font-bold italic text-bg-cream">
