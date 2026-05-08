@@ -1,3 +1,5 @@
+import { apps } from "@/data/apps";
+
 export type ShopCategoryId =
   | "pointless"
   | "games"
@@ -176,9 +178,11 @@ export interface StatHighlight {
   icon: string;
 }
 
+const LIVE_APP_COUNT = apps.filter((app) => app.status === "live").length;
+
 export const HOMEPAGE_STATS: StatHighlight[] = [
   {
-    value: "42",
+    value: String(LIVE_APP_COUNT),
     label: "unnecessary apps",
     subtext: "And counting...",
     icon: "🐣",
